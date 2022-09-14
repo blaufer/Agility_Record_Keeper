@@ -15,6 +15,11 @@ This is an unfinished project with lots of work to be done. A file called to_do.
 
 ## Technical Information
 
+To run the current program, Python3 is needed and should already include Tkinter within the Python Standard Library. In order to execute the program use the command
+```
+python3 agility_app.py
+```
+
 The backend will be an SQL database for now. If a mobile application is created and this is not the best option, YAML or JSON may be used for data storage.
 
 Currently, tkinter is generating the GUI. It is not necessarily the best looking application for this so that will eventually change, the author is just most familiar with it at the moment and uses it for initial concept design.
