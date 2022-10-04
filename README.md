@@ -20,7 +20,7 @@ To run the current program, Python3 is needed and should already include Tkinter
 python3 agility_app.py
 ```
 
-The backend will be an SQL database for now. If a mobile application is created and this is not the best option, YAML or JSON may be used for data storage.
+The backend is currently JSON. If a mobile application is created and this is not the best option, YAML or SQL may be used for data storage.
 
 Currently, tkinter is generating the GUI. It is not necessarily the best looking application for this so that will eventually change, the author is just most familiar with it at the moment and uses it for initial concept design.
 
