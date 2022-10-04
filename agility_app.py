@@ -231,13 +231,15 @@ class AgilityApp(tk.Tk):
         # PLACEHOLDER
         # Saves the currenct data to a new file
         self.save = filedialog.asksaveasfile(defaultextension='.json')
-        print(self.save)
+        self.AD.writeJSON(self.save.name)
 
     #------------------------------------------------------
     # DONE
     def addCanine(self):
         # Opens the canine entry form
-        CanineEntry(self, self.AD)
+        ce = CanineEntry(self, self.AD)
+        ce.canine_entry.wait_window(ce.canine_entry)
+        self.canine_runs.updateCanineTree()
 
     #------------------------------------------------------
     # DONE

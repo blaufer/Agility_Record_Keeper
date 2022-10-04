@@ -183,4 +183,20 @@ class CanineRuns():
             if self.run_selected in self.tree_runs.item(item)['values']:
                 self.tree_runs.selection_set(item)
 
+    #------------------------------------------------------
+    def updateCanineTree(self):
+        for kc in self.AD.canine.keys():
+            key = self.tree_canine.insert('', 'end', text=kc)
+            self.canine_items[key] = {}
+            # Loop through the trials
+            for kt in self.AD.canine[kc]['Trials'].keys():
+                keyt = self.tree_canine.insert(key,
+                    'end', text=f'{kt} {self.AD.canine[kc]["Trials"][kt]["Club"]}')
+                self.canine_items[key][keyt] = {}
+                # Loop through the runs
+                for kr in self.AD.canine[kc]['Trials'][kt]['Runs'].keys():
+                    keyc = self.tree_canine.insert(keyt, 'end',
+                        text=f'{self.AD.canine[kc]["Trials"][kt]["Runs"][kr]["Division"]} {kr}')
+                    self.canine_items[key][keyt][keyc] = {}
+
 #----------------------------------------------------------
