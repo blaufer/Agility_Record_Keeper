@@ -214,7 +214,9 @@ class AgilityApp(tk.Tk):
         # Opens an existing file
         self.open = filedialog.askopenfilename(title='Open File',
             filetypes=(('json', '*.json'),('all', '*.*')))
-        print(self.open)
+        self.AD.readJSON(self.open)
+        self.canine_runs.updateCanineTree()
+        #print(self.open)
 
     #------------------------------------------------------
     def saveFile(self):

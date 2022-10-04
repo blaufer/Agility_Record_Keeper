@@ -185,6 +185,7 @@ class CanineRuns():
 
     #------------------------------------------------------
     def updateCanineTree(self):
+        self.tree_canine.delete(*self.tree_canine.get_children())
         for kc in self.AD.canine.keys():
             key = self.tree_canine.insert('', 'end', text=kc)
             self.canine_items[key] = {}
