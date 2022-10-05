@@ -5,6 +5,7 @@ from PIL import Image, ImageTk
 
 # My Imports
 from data.agility_data import AgilityData
+from data.settings import AgilitySettings
 
 from tabs.canine_runs import CanineRuns
 from tabs.calendar_tab import CalendarTab
@@ -31,8 +32,10 @@ class AgilityApp(tk.Tk):
 
         # Start data
         self.AD = AgilityData()
-        # PLACEHOLDER
-        self.AD.readJSON('test.json')
+        self.AS = AgilitySettings()
+        # Read in last open file
+        if 'file' in self.AS.settings.keys():
+            self.AD.readJSON(self.AS.settings['file'])
         self.save = None
 
         # Set font and text size
@@ -75,7 +78,8 @@ class AgilityApp(tk.Tk):
         # Bindings
         self.canine_runs.tree_canine.bind('<ButtonRelease-1>',
             self.canineTreeBind)
-        
+        self.protocol('WM_DELETE_WINDOW', self.quit)
+
     #------------------------------------------------------
     def styleSettings(self):
         # Add any settings needed to style the windows
@@ -200,6 +204,7 @@ class AgilityApp(tk.Tk):
     #------------------------------------------------------
     def quit(self):
         # ADD AUTOSAVE OR ASK USER
+        self.AS.writeSettings()
         # Exits the program
         self.destroy()
 
@@ -216,7 +221,7 @@ class AgilityApp(tk.Tk):
             filetypes=(('json', '*.json'),('all', '*.*')))
         self.AD.readJSON(self.open)
         self.canine_runs.updateCanineTree()
-        #print(self.open)
+        self.AS.settings['file'] = self.open
 
     #------------------------------------------------------
     def saveFile(self):
@@ -234,6 +239,7 @@ class AgilityApp(tk.Tk):
         # Saves the currenct data to a new file
         self.save = filedialog.asksaveasfile(defaultextension='.json')
         self.AD.writeJSON(self.save.name)
+        self.AS.settings['file'] = self.save.name
 
     #------------------------------------------------------
     # DONE

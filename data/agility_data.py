@@ -16,7 +16,7 @@ class AgilityData():
         self.judges = {}
         self.locations = {}
         self.clubs = {}
-        
+
         # Keys to the saved JSON
         self.keys = ['validate', 'canine', 'calendar', 'training',
                      'venues', 'judges', 'clubs', 'locations']
