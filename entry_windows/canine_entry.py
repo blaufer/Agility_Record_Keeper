@@ -218,9 +218,17 @@ class CanineEntry():
         # ADD DATA COLLECTION STUFF
         # Grab all the entered data then exit
         call_name = self.call_entry.get()
+        
+        # Check that call name is entered
         if call_name == '':
             MessageBox(self.canine_entry, 
                 'You must enter at\nleast a call name')
+            return
+        
+        # Check if call name already exists
+        if call_name in self.AD.canine:
+            MessageBox(self.canine_entry,
+                'This canine already exists')
             return
 
         breed = self.breed_entry.get()
@@ -232,6 +240,7 @@ class CanineEntry():
         if note == '': note = None
         temp = self.birthday_entry.get_date()
         birthday = f'{temp.month}/{temp.day}/{temp.year}'
+        
 
         self.AD.addCanine(call_name, birthday, deceased, breed,
             reg_name, note)
