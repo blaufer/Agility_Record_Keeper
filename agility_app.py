@@ -30,9 +30,10 @@ class AgilityApp(tk.Tk):
         # Initialize super class
         super().__init__()
 
-        # Start data
+        # Start data and settings
         self.AD = AgilityData()
         self.AS = AgilitySettings()
+        
         # Read in last open file
         if 'file' in self.AS.settings.keys():
             self.AD.readJSON(self.AS.settings['file'])
@@ -47,7 +48,7 @@ class AgilityApp(tk.Tk):
 
         # Add dropdown menus and buttons
         # Not in it's own file for ease of passing
-        # selected arguments (ie which canine for
+        # selected arguments (i.e. which canine for
         # title entry)
         self.menu_bar = self.menuBar()
         self.fileMenu()
@@ -78,7 +79,7 @@ class AgilityApp(tk.Tk):
         # Bindings
         self.canine_runs.tree_canine.bind('<ButtonRelease-1>',
             self.canineTreeBind)
-        self.protocol('WM_DELETE_WINDOW', self.quit)
+        self.protocol('WM_DELETE_WINDOW', self.quit) # Saves settings when X is clicked on
 
     #------------------------------------------------------
     def styleSettings(self):
@@ -145,7 +146,6 @@ class AgilityApp(tk.Tk):
     def notesMenu(self):
         # Setup the notes dropdown
 
-
         # Add items to the Notes Menu
         self.notes_menu = tk.Menu(self.menu, tearoff=0)
         self.notes_menu.add_command(label='Clubs', command=self.clubNotes)
@@ -158,7 +158,6 @@ class AgilityApp(tk.Tk):
     #------------------------------------------------------
     def buttonGrid(self):
         # Setup the grid of buttons below the dropdowns
-
         self.canine_button = ttk.Button(self.button_frame, text='Canine',
             command=self.addCanine)
         self.canine_button.pack(side='left')
@@ -204,15 +203,17 @@ class AgilityApp(tk.Tk):
     #------------------------------------------------------
     def quit(self):
         # ADD AUTOSAVE OR ASK USER
+        
+        # Writes the settings file
         self.AS.writeSettings()
         # Exits the program
         self.destroy()
 
     #------------------------------------------------------
     def newFile(self):
-        # PLACEHOLDER
         # Creates a new file
-        print('New')
+        self.AS.removeFilename()
+        self.canine_runs.clearCanineTree()
 
     #------------------------------------------------------
     def openFile(self):
@@ -225,17 +226,14 @@ class AgilityApp(tk.Tk):
 
     #------------------------------------------------------
     def saveFile(self):
-        # PLACEHOLDER
         # Saves to the current file
-        if self.save == None:
+        if 'file' not in self.AS.settings.keys():
             self.saveAs()
-            print(self.save)
         else:
-            print('Save')
+            self.AD.writeJSON(self.AS.settings['file'])
 
     #------------------------------------------------------
     def saveAs(self):
-        # PLACEHOLDER
         # Saves the currenct data to a new file
         self.save = filedialog.asksaveasfile(defaultextension='.json')
         self.AD.writeJSON(self.save.name)
