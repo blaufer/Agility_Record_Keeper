@@ -15,7 +15,8 @@ class TrialEntry():
         self.trial_entry.grab_set()
 
         self.trial_entry.title('Trial')
-        
+        self.trial_entry.geometry('400x250')
+
         self.AD = ad
         self.canine = canine
 

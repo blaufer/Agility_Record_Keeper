@@ -89,6 +89,7 @@ class CanineRuns():
         # Loop through the canines
         for kc in self.AD.canine.keys():
             key = self.tree_canine.insert('', 'end', text=kc)
+            self.tree_canine.item(key, open=True)
             self.canine_items[key] = {}
             # Loop through the trials
             for kt in self.AD.canine[kc]['Trials'].keys():
@@ -188,6 +189,7 @@ class CanineRuns():
         self.clearCanineTree()
         for kc in self.AD.canine.keys():
             key = self.tree_canine.insert('', 'end', text=kc)
+            self.tree_canine.item(key, open=True)
             self.canine_items[key] = {}
             # Loop through the trials
             for kt in self.AD.canine[kc]['Trials'].keys():

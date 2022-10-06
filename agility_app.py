@@ -257,7 +257,9 @@ class AgilityApp(tk.Tk):
     # DONE
     def addTrial(self):
         # Opens the trial entry form
-        TrialEntry(self, self.AD, self.canine_runs.canine_selected)
+        te = TrialEntry(self, self.AD, self.canine_runs.canine_selected)
+        te.trial_entry.wait_window(te.trial_entry)
+        self.canine_runs.updateCanineTree()
 
     #------------------------------------------------------
     def addRun(self):
