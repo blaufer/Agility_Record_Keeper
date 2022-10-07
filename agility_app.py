@@ -240,7 +240,6 @@ class AgilityApp(tk.Tk):
         self.AS.settings['file'] = self.save.name
 
     #------------------------------------------------------
-    # DONE
     def addCanine(self):
         # Opens the canine entry form
         ce = CanineEntry(self, self.AD)
@@ -248,13 +247,12 @@ class AgilityApp(tk.Tk):
         self.canine_runs.updateCanineTree()
 
     #------------------------------------------------------
-    # DONE
     def addTitle(self):
         # Opens the title entry form
-        TitleEntry(self, self.AD, self.canine_runs.canine_selected)
+        te = TitleEntry(self, self.AD, self.canine_runs.canine_selected)
+        te.title_entry.wait_window(te.title_entry)
 
     #------------------------------------------------------
-    # DONE
     def addTrial(self):
         # Opens the trial entry form
         te = TrialEntry(self, self.AD, self.canine_runs.canine_selected)
@@ -264,7 +262,10 @@ class AgilityApp(tk.Tk):
     #------------------------------------------------------
     def addRun(self):
         # Opens the run entry form
-        RunEntry(self)
+        re = RunEntry(self, self.AD, self.canine_runs.canine_selected,
+            self.canine_runs.trial_selected)
+        re.run_entry.wait_window(re.run_entry)
+        self.canine_runs.runCanineData(None)
 
     #------------------------------------------------------
     def clubNotes(self):
@@ -323,7 +324,6 @@ class AgilityApp(tk.Tk):
         else:
             self.run_button['state'] = 'disabled'
             self.agility_menu.entryconfig('Run', state='disabled')
-
 
 #----------------------------------------------------------
 

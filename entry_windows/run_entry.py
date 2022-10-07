@@ -7,12 +7,17 @@ import tkcalendar as tkc
 class RunEntry():
 
     #------------------------------------------------------
-    def __init__(self, main):
+    def __init__(self, main, ad, canine, trial_date):
         self.run_entry = tk.Toplevel(main)
         self.run_entry.transient()
         self.run_entry.grab_set()
 
         self.run_entry.title('Title')
+        self.run_entry.geometry('825x325')
+
+        self.AD = ad
+        self.canine = canine
+        self.date = trial_date
 
         # Variables
         self.trial_entered = tk.StringVar()
@@ -82,6 +87,7 @@ class RunEntry():
         self.date_label.pack(side='left')
         self.date_entry = tkc.DateEntry(self.re1, firstweekday='sunday',
             showweeknumber=False)
+        self.date_entry.set_date(self.date)
         self.date_entry.pack(side='left', fill='x')
 
         self.trial_entry = ttk.Combobox(self.re1, value=self.trial_selection,
@@ -257,8 +263,9 @@ class RunEntry():
     #------------------------------------------------------
     def submit(self):
         # ADD COLLECTION DATA STUFF
-        # Grab all the netered data then exit
+        # Grab all the entered data then exit
         self.date = self.date_entry.get_date()
+        self.date = f'{self.date.month}/{self.date.day}/{self.date.year}'
         self.trial = self.trial_entered.get()
         self.division = self.division_entered.get()
         self.level = self.level_entered.get()
@@ -276,6 +283,15 @@ class RunEntry():
         self.qd = self.qd_entered.get()
         self.q = self.q_entered.get()
         self.note = self.notes_entry.get('1.0', 'end-1c')
+
+        # Needs to be calculated
+        self.tpoints = None
+        self.score = None
+
+        self.AD.addRun(self.canine, self.date, self.event, self.division, self.level,
+            self.height, self.judge, self.handler, self.sct, self.yards, self.obst,
+            self.time, self.faults, self.place, self.place_of, self.qd, self.q,
+            self.tpoints, self.score, self.note)
 
         self.quit()
 

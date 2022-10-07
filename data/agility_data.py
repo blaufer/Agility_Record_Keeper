@@ -89,7 +89,7 @@ class AgilityData():
             self.canine[name]['Trials'][date]['Runs'][event]['Height'] = height
         if judge != None:
             self.canine[name]['Trials'][date]['Runs'][event]['Judge'] = judge
-            self.add_judge(judge)
+            self.addJudge(judge)
         if handler != None:
             self.canine[name]['Trials'][date]['Runs'][event]['Handler'] = handler
         if sct != None:
