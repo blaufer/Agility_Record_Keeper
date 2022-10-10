@@ -7,7 +7,7 @@ import tkcalendar as tkc
 class RunEntry():
 
     #------------------------------------------------------
-    def __init__(self, main, ad, canine, trial_date):
+    def __init__(self, main, ad, canine, uid):
         self.run_entry = tk.Toplevel(main)
         self.run_entry.transient()
         self.run_entry.grab_set()
@@ -17,7 +17,8 @@ class RunEntry():
 
         self.AD = ad
         self.canine = canine
-        self.date = trial_date
+        self.uid = uid
+        self.date = self.AD.trials[uid]['Date']
 
         # Variables
         self.trial_entered = tk.StringVar()
@@ -288,10 +289,10 @@ class RunEntry():
         self.tpoints = None
         self.score = None
 
-        self.AD.addRun(self.canine, self.date, self.event, self.division, self.level,
-            self.height, self.judge, self.handler, self.sct, self.yards, self.obst,
-            self.time, self.faults, self.place, self.place_of, self.qd, self.q,
-            self.tpoints, self.score, self.note)
+        self.AD.addRun(self.canine, self.uid, self.date, self.event, self.division,
+            self.level, self.height, self.judge, self.handler, self.sct, self.yards,
+            self.obst, self.time, self.faults, self.place, self.place_of, self.qd,
+            self.q, self.tpoints, self.score, self.note)
 
         self.quit()
 

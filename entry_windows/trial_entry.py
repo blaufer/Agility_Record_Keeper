@@ -113,6 +113,7 @@ class TrialEntry():
     def submit(self):
         # ADD DATA COLLECTION STUFF
         # Grab all the entered data then exit
+        uid = self.AD.uniqueTrialID()
         temp = self.date_entry.get_date()
         date = f'{temp.month}/{temp.day}/{temp.year}'
         if date in list(self.AD.canine[self.canine]['Trials'].keys()):
@@ -129,7 +130,7 @@ class TrialEntry():
         note = self.notes_entry.get('1.0', 'end-1c')
         if note == '': note = None
 
-        self.AD.addTrial(self.canine, date, club, loc, venue, note)
+        self.AD.addTrial(uid, self.canine, date, club, loc, venue, note)
         
         self.quit()
 

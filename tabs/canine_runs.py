@@ -93,15 +93,18 @@ class CanineRuns():
             self.canine_items[key] = {}
             # Loop through the trials
             for kt in self.AD.canine[kc]['Trials'].keys():
-                keyt = self.tree_canine.insert(key,
-                    'end', text=f'{kt} {self.AD.canine[kc]["Trials"][kt]["Club"]}')
+                keyt = self.tree_canine.insert(key, 'end', iid=kt,
+                    text=f'{self.AD.trials[kt]["Date"]} {self.AD.trials[kt]["Club"]}')
                 self.canine_items[key][keyt] = {}
+                '''
+                #No Longer Want This
                 # Loop through the runs
                 for kr in self.AD.canine[kc]['Trials'][kt]['Runs'].keys():
                     keyc = self.tree_canine.insert(keyt, 'end',
                         text=f'{self.AD.canine[kc]["Trials"][kt]["Runs"][kr]["Division"]} {kr}')
                     self.canine_items[key][keyt][keyc] = {}
-    
+                '''
+
     #------------------------------------------------------
     def runCanineData(self, event):
         # Add data to the right tree based upon which canine, or trial is selected
@@ -111,11 +114,53 @@ class CanineRuns():
 
         # Deletes current items in right tree
         self.tree_runs.delete(*self.tree_runs.get_children())
+        
+        # Canine Selected
+        if tree_item(foc)['text'] in self.AD.canine.keys():
+            k9 = tree_item(foc)['text']
+            # Loop through trials for the selected canine
+            for k, v in self.AD.canine[k9]['Trials'].items():
+                # Loop through runs
+                for r in v.values():
+                    for k1, temp in r.items():
+                        self.tree_runs.insert('', 'end',
+                            values=(temp['Q?'], temp['Title Pts'], temp['Score'],
+                            temp['Date'], self.AD.trials[k]['Venue'], k1,
+                            temp['Division'], temp['Level'], temp['Height'],
+                            temp['Judge'], temp['Time'], temp['Place'],
+                            temp['Total Dogs'], temp['Qd'], temp['Notes']))
+        # Canine and Trial Selected
+        else:
+            k9 = tree_item(tree_par(foc))['text']
+            tri = foc 
+            # Loop through runs
+            for r in self.AD.canine[k9]['Trials'][tri].values():
+                for k1, temp in r.items():
+                    self.tree_runs.insert('', 'end',
+                        values=(temp['Q?'], temp['Title Pts'], temp['Score'],
+                        temp['Date'], self.AD.trials[tri]['Venue'], k1,
+                        temp['Division'], temp['Level'], temp['Height'],
+                        temp['Judge'], temp['Time'], temp['Place'],
+                        temp['Total Dogs'], temp['Qd'], temp['Notes']))
+
+        '''
+        # BEFORE UID CHANGE - Leaving in case
+        # Add data to the right tree based upon which canine, or trial is selected
+        foc = self.tree_canine.focus()
+        tree_item = self.tree_canine.item
+        tree_par = self.tree_canine.parent
+        
+        # Deletes current items in right tree
+        self.tree_runs.delete(*self.tree_runs.get_children())
 
         # Get selected item and its parents (if any)
-        t1 = tree_item(foc)['text']
+        t1 = tree_item(foc)
         p1 = tree_item(tree_par(foc))['text']
+        print(t1)
+        print(p1)
         if p1 != '':
+            t1 = t1.iid
+            print(t1)
             p2 = tree_item(tree_par(tree_par(foc)))['text']
             # If two parents, then a run is selected    
             if p2 != '':
@@ -176,6 +221,7 @@ class CanineRuns():
             self.canine_selected = t1
             self.trial_selected = None
             self.run_selected = None
+        '''
 
     #------------------------------------------------------
     def highlightRun(self):
@@ -193,14 +239,17 @@ class CanineRuns():
             self.canine_items[key] = {}
             # Loop through the trials
             for kt in self.AD.canine[kc]['Trials'].keys():
-                keyt = self.tree_canine.insert(key,
-                    'end', text=f'{kt} {self.AD.canine[kc]["Trials"][kt]["Club"]}')
+                keyt = self.tree_canine.insert(key, 'end', iid=kt,
+                    text=f'{self.AD.trials[kt]["Date"]} {self.AD.trials[kt]["Club"]}')
                 self.canine_items[key][keyt] = {}
+                '''
+                # No Longer Want this
                 # Loop through the runs
                 for kr in self.AD.canine[kc]['Trials'][kt]['Runs'].keys():
                     keyc = self.tree_canine.insert(keyt, 'end',
                         text=f'{self.AD.canine[kc]["Trials"][kt]["Runs"][kr]["Division"]} {kr}')
                     self.canine_items[key][keyt][keyc] = {}
+                '''
 
     #------------------------------------------------------
     def clearCanineTree(self):
