@@ -129,6 +129,9 @@ class CanineRuns():
                             temp['Division'], temp['Level'], temp['Height'],
                             temp['Judge'], temp['Time'], temp['Place'],
                             temp['Total Dogs'], temp['Qd'], temp['Notes']))
+            self.canine_selected = k9
+            self.trial_selected = None
+            self.run_selected = None
         # Canine and Trial Selected
         else:
             k9 = tree_item(tree_par(foc))['text']
@@ -142,6 +145,9 @@ class CanineRuns():
                         temp['Division'], temp['Level'], temp['Height'],
                         temp['Judge'], temp['Time'], temp['Place'],
                         temp['Total Dogs'], temp['Qd'], temp['Notes']))
+            self.canine_selected = k9
+            self.trial_selected = tri
+            self.run_selected = None
 
         '''
         # BEFORE UID CHANGE - Leaving in case
