@@ -259,72 +259,72 @@ class AgilityData():
     def blankEntries(self):
         # Add dictionaries for each type of entry so that
         # all items will be present even if blank
-        self.canine_entry = {'DOB': None,
-                             'Deceased': None,
-                             'Breed': None,
-                             'Registered Name': None,
-                             'Notes': None,
+        self.canine_entry = {'DOB': '',
+                             'Deceased': '',
+                             'Breed': '',
+                             'Registered Name': '',
+                             'Notes': '',
                              'Titles': [],
                              'Registration': [],
                              'Trials': {}
                             }
-        self.title_entry = {'Date': None,
-                            'Venue': None,
-                            'Title': None,
+        self.title_entry = {'Date': '',
+                            'Venue': '',
+                            'Title': '',
                            }
-        self.reg_entry = {'Venue': None,
-                          'Number': None,
-                          'Height': None,
-                          'HC Recieved': None,
-                          'Note': None
+        self.reg_entry = {'Venue': '',
+                          'Number': '',
+                          'Height': '',
+                          'HC Recieved': '',
+                          'Note': ''
                          }
-        self.trials_entry = {'Date': None,
-                            'Club': None,
-                            'Location': None,
-                            'Venue': None,
-                            'Notes': None
+        self.trials_entry = {'Date': '',
+                            'Club': '',
+                            'Location': '',
+                            'Venue': '',
+                            'Notes': ''
                            }
-        self.trial_entry = {'Date': None,
-                            'Club': None,
-                            'Location': None,
-                            'Venue': None,
-                            'Notes': None,
-                            'Runs': None
+        self.trial_entry = {'Date': '',
+                            'Club': '',
+                            'Location': '',
+                            'Venue': '',
+                            'Notes': '',
+                            'Runs': ''
                            }
-        self.run_entry = {'Division': None, # Event will be the key within self.canine[name]['Trials'][uid]
-                          'Date': None,
-                          'Level': None,
-                          'Height': None,
-                          'Judge': None,
-                          'Handler': None,
-                          'SCT': None,
-                          'Yards': None,
-                          'Obstacles': None,
-                          'Time': None,
-                          'Faults': None,
-                          'Place': None,
-                          'Total Dogs': None,
-                          'Qd': None,
-                          'Q?': None,
-                          'Title Pts': None,
-                          'Score': None,
-                          'Notes': None
+        self.run_entry = {'Division': '', # Event will be the key within self.canine[name]['Trials'][uid]
+                          'Date': '',
+                          'Level': '',
+                          'Height': '',
+                          'Judge': '',
+                          'Handler': '',
+                          'SCT': '',
+                          'Yards': '',
+                          'Obstacles': '',
+                          'Time': '',
+                          'Faults': '',
+                          'Place': '',
+                          'Total Dogs': '',
+                          'Qd': '',
+                          'Q?': '',
+                          'Title Pts': '',
+                          'Score': '',
+                          'Notes': ''
                          }
-        self.calendar_entry = {'SDate': None,
-                               'EDate': None,
-                               'ODate': None,
-                               'CDate': None,
-                               'DDate': None,
-                               'Tentative': None,
-                               'Entry': None,
-                               'SecEmail': None,
-                               'Venue': None,
-                               'Club': None,
-                               'Location': None,
-                               'Notes': None
+        self.calendar_entry = {'SDate': '',
+                               'EDate': '',
+                               'ODate': '',
+                               'CDate': '',
+                               'DDate': '',
+                               'Tentative': '',
+                               'Entry': '',
+                               'SecEmail': '',
+                               'Venue': '',
+                               'Club': '',
+                               'Location': '',
+                               'Notes': ''
                               }
-        self.training_entry = {'Subname': None,
-                               'Notes': None
+        self.training_entry = {'Subname': '',
+                               'Notes': ''
                               }
 
     #------------------------------------------------------
