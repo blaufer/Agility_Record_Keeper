@@ -6,11 +6,12 @@ import tkinter.ttk as ttk
 class JudgeNotes():
 
     #------------------------------------------------------
-    def __init__(self, main):
+    def __init__(self, main, ad):
         self.judges_entry = tk.Toplevel(main)
         self.judges_entry.transient()
         self.judges_entry.grab_set()
         self.judges_entry.title('Judges')
+        self.AD = ad
 
         # Variable
         self.judge_entered = tk.StringVar()
@@ -38,8 +39,11 @@ class JudgeNotes():
         # Frame one
         self.judge_label = tk.Label(self.frame_one, text='Judge')
         self.judge_label.pack(side='left')
-        self.judge_entry = ttk.Combobox(self.frame_one, textvariable=self.judge_entered)
+        self.judge_entry = ttk.Combobox(self.frame_one,
+            values=sorted(self.AD.judges.keys()), textvariable=self.judge_entered)
         self.judge_entry.pack(side='left')
+        self.judge_entry.bind('<Return>', self.fillNotes)
+        self.judge_entry.bind('<<ComboboxSelected>>', self.fillNotes)
 
         # Frame two
         self.notes_label = tk.Label(self.frame_two, text='Notes')
@@ -57,6 +61,11 @@ class JudgeNotes():
         self.ok_button.pack(side='right')
 
     #------------------------------------------------------
+    def fillNotes(self, event):
+        self.notes_entry.delete(1.0, 'end')
+        self.notes_entry.insert('end', self.AD.judges[self.judge_entered.get()])
+
+    #------------------------------------------------------
     def quit(self):
         # ASK ABOUT SAVING BEFORE QUITTING
         # Exit the judge notes window
@@ -68,6 +77,7 @@ class JudgeNotes():
         # Grab all the entered data then exit
         self.judge = self.judge_entered.get()
         self.note = self.notes_entry.get('1.0', 'end-1c')
+        self.AD.addJudge(self.judge, self.note)
 
         self.quit()
 

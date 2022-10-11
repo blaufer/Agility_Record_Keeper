@@ -206,6 +206,7 @@ class AgilityApp(tk.Tk):
         
         # Writes the settings file
         self.AS.writeSettings()
+        self.saveFile()
         # Exits the program
         self.destroy()
 
@@ -270,17 +271,20 @@ class AgilityApp(tk.Tk):
     #------------------------------------------------------
     def clubNotes(self):
         # Opens the club notes entry form
-        ClubNotes(self)
-
+        cn = ClubNotes(self, self.AD)
+        cn.clubs_entry.wait_window(cn.clubs_entry)
+        
     #------------------------------------------------------
     def judgeNotes(self):
         # Opens the judge notes entry form
-        JudgeNotes(self)
+        jn = JudgeNotes(self, self.AD)
+        jn.judges_entry.wait_window(jn.judges_entry)
 
     #------------------------------------------------------
     def locNotes(self):
         # Opens the location notes entry form
-        LocNotes(self)
+        ln = LocNotes(self, self.AD)
+        ln.loc_entry.wait_window(ln.loc_entry)
 
     #------------------------------------------------------
     def addCalendar(self):

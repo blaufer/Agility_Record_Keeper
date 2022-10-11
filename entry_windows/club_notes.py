@@ -6,11 +6,13 @@ import tkinter.ttk as ttk
 class ClubNotes():
 
     #------------------------------------------------------
-    def __init__(self, main):
+    def __init__(self, main, ad):
         self.clubs_entry = tk.Toplevel(main)
         self.clubs_entry.transient()
         self.clubs_entry.grab_set()
         self.clubs_entry.title('Clubs')
+
+        self.AD = ad
 
         # Variable
         self.club_entered = tk.StringVar()
@@ -38,8 +40,11 @@ class ClubNotes():
         # Frame one
         self.club_label = tk.Label(self.frame_one, text='Club')
         self.club_label.pack(side='left')
-        self.club_entry = ttk.Combobox(self.frame_one, textvariable=self.club_entered)
+        self.club_entry = ttk.Combobox(self.frame_one,
+            values=sorted(self.AD.clubs.keys()), textvariable=self.club_entered)
         self.club_entry.pack(side='left')
+        self.club_entry.bind('<Return>', self.fillNotes)
+        self.club_entry.bind('<<ComboboxSelected>>', self.fillNotes)
 
         # Frame two
         self.notes_label = tk.Label(self.frame_two, text='Notes')
@@ -57,6 +62,11 @@ class ClubNotes():
         self.ok_button.pack(side='right')
 
     #------------------------------------------------------
+    def fillNotes(self, event):
+        self.notes_entry.delete(1.0, 'end')
+        self.notes_entry.insert('end', self.AD.clubs[self.club_entered.get()])
+
+    #------------------------------------------------------
     def quit(self):
         # ASK ABOUT SAVING BEFORE QUITTING
         # Exit the club notes window
@@ -68,6 +78,7 @@ class ClubNotes():
         # Grab all the entered data then exit
         self.club = self.club_entered.get()
         self.note = self.notes_entry.get('1.0', 'end-1c')
+        self.AD.addClub(self.club, self.note)
 
         self.quit()
 
