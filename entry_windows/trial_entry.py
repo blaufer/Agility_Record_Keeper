@@ -64,7 +64,7 @@ class TrialEntry():
 
         # Frame two
         self.venues = ['AKC'] # PLACEHOLDER
-        self.clubs = sorted(['GSDCA', 'WAG', 'Triune', 'TAC', 'SMACCM']) # PLACEHOLDER
+        self.clubs = sorted(self.AD.clubs.keys()) # PLACEHOLDER
 
         self.venue_label = tk.Label(self.te2, text='Venue')
         self.venue_label.pack(side='left')
@@ -80,7 +80,7 @@ class TrialEntry():
         self.club_entry.pack(side='left')
 
         # Frame three
-        self.locs = sorted(['Westinn', 'CCSC', 'Purina Farms']) # PLACEHOLDER
+        self.locs = sorted(self.AD.locations.keys()) # PLACEHOLDER
 
         self.loc_label = tk.Label(self.te3, text='Location')
         self.loc_label.pack(side='left')

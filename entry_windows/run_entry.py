@@ -130,8 +130,8 @@ class RunEntry():
         self.level_entry.bind('<<ComboboxSelected>>', self.getEventData)
 
         # Frame three
-        self.height_selection = [8, 12, 16, 20, 24]
-        self.judge_selection = ['Tim Verelli'] #PLACEHOLDER
+        self.height_selection = [4, 8, 12, 16, 20, 24]
+        self.judge_selection = sorted(self.AD.judges.keys())
         self.handler_selection = ['Brandon Laufer'] #PLACEHOLDER
 
         self.height_label = tk.Label(self.re3, text='Height')

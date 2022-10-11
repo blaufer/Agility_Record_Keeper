@@ -85,7 +85,7 @@ class AgilityData():
         # Add a run to given canine and trial
         if event not in self.canine[name]['Trials'][uid]['Runs']:
             self.canine[name]['Trials'][uid]['Runs'][event] = self.run_entry
-        self.canine[name]['Trials'][uid]['Runs'][date] = date
+        self.canine[name]['Trials'][uid]['Runs'][event]['Date'] = date
         if division != None:
             self.canine[name]['Trials'][uid]['Runs'][event]['Division'] = division
         if level != None:
@@ -156,14 +156,14 @@ class AgilityData():
             self.calendar[k]['Notes'] = notes
 
     #------------------------------------------------------
-    def addTraining(self, name, sname=None, notes=None):
+    def addTraining(self, name, sname='', notes=''):
 
         # Add training entry, name is necessary
         self.training[name] = self.training_entry
 
-        if sname != None:
+        if sname != '':
             self.training[name]['Subname'] = sname
-        if notes != None:
+        if notes != '':
             self.training[name]['Notes'] = notes
 
     #------------------------------------------------------
@@ -226,31 +226,31 @@ class AgilityData():
         self.locations = all_data['locations']
 
     #------------------------------------------------------
-    def addJudge(self, judge, note=None):
+    def addJudge(self, judge, note=''):
         # If a judge is added to a run entry, check if
         # it's in the judges list and add if not
         if judge not in self.judges:
-            self.judges[judge] = None
+            self.judges[judge] = ''
 
         if note != '':
             self.judges[judge] = note
 
     #------------------------------------------------------
-    def addClub(self, club, note=None):
+    def addClub(self, club, note=''):
         # If a club is added to a trial entry, check if
         # it's in the clubs list and add if not
         if club not in self.clubs:
-            self.clubs[club] = None
+            self.clubs[club] = ''
 
         if note != '':
             self.clubs[club] = note
     
     #------------------------------------------------------
-    def addLocation(self, loc, note=None):
+    def addLocation(self, loc, note=''):
         # If a location is added to a trial entry, check if
         # it's in the locations list and add if not
         if loc not in self.locations:
-            self.locations[loc] = None
+            self.locations[loc] = ''
 
         if note != '':
             self.locations[loc] = note
@@ -283,13 +283,6 @@ class AgilityData():
                             'Location': '',
                             'Venue': '',
                             'Notes': ''
-                           }
-        self.trial_entry = {'Date': '',
-                            'Club': '',
-                            'Location': '',
-                            'Venue': '',
-                            'Notes': '',
-                            'Runs': ''
                            }
         self.run_entry = {'Division': '', # Event will be the key within self.canine[name]['Trials'][uid]
                           'Date': '',
