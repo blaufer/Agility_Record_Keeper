@@ -78,7 +78,8 @@ class ClubNotes():
         # Grab all the entered data then exit
         self.club = self.club_entered.get()
         self.note = self.notes_entry.get('1.0', 'end-1c')
-        self.AD.addClub(self.club, self.note)
+        if self.club != '':
+            self.AD.addClub(self.club, self.note)
 
         self.quit()
 

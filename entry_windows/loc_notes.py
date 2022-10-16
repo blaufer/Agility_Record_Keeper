@@ -77,7 +77,8 @@ class LocNotes():
         # Grab all the entered data and exit
         self.loc = self.loc_entered.get()
         self.note = self.notes_entry.get('1.0', 'end-1c')
-        self.AD.addLocation(self.loc, self.note)
+        if self.loc != '':
+            self.AD.addLocation(self.loc, self.note)
 
         self.quit()
 

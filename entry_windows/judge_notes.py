@@ -77,7 +77,8 @@ class JudgeNotes():
         # Grab all the entered data then exit
         self.judge = self.judge_entered.get()
         self.note = self.notes_entry.get('1.0', 'end-1c')
-        self.AD.addJudge(self.judge, self.note)
+        if self.judge != '':
+            self.AD.addJudge(self.judge, self.note)
 
         self.quit()
 
