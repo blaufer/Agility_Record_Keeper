@@ -18,7 +18,7 @@ from entry_windows.run_entry import RunEntry
 from entry_windows.calendar_entry import CalendarEntry
 from entry_windows.training_entry import TrainingEntry
 from entry_windows.judge_notes import JudgeNotes
-from entry_windows.temp_club_notes import ClubNotes
+from entry_windows.club_notes import ClubNotes
 from entry_windows.loc_notes import LocNotes
 
 #----------------------------------------------------------

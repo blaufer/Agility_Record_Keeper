@@ -1,6 +1,9 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 
+# My imports
+from entry_windows.general_window import generalEntry
+
 #----------------------------------------------------------
 
 class ClubNotes():
@@ -15,42 +18,38 @@ class ClubNotes():
         self.AD = ad
 
         # Variable
-        self.club_entered = tk.StringVar()
+        #self.club_entered = tk.StringVar()
         
         # Setup
-        self.setupEntry()
+        self.infoPopup()
+
+        # Bindings
+        self.tree_clubs.bind('<ButtonRelease-1>', self.clubTreeBind)
 
     #------------------------------------------------------
-    def setupEntry(self):
-        # Create the frames, entry boxes, and ok/cancel button
+    def infoPopup(self):
+        # Create the frames, treeview, and buttons
 
         # Setup each frame
         self.frame_one = ttk.Frame(self.clubs_entry)
-        self.frame_one.pack(side='top', fill='x')
-        
-        self.frame_two = ttk.Frame(self.clubs_entry)
-        self.frame_two.pack(side='top', fill='x')
-        
-        self.separator = ttk.Separator(self.clubs_entry, orient='horizontal')
-        self.separator.pack(fill='x', padx=5)
+        self.frame_one.pack(side='top')
+
+        self.sep = ttk.Separator(self.clubs_entry, orient='horizontal')
+        self.sep.pack(fill='x', padx=5)
 
         self.ok_cancel = ttk.Frame(self.clubs_entry)
-        self.ok_cancel.pack(side='top', fill='both')
+        self.ok_cancel.pack(side='bottom', fill='both')
 
         # Frame one
-        self.club_label = tk.Label(self.frame_one, text='Club')
-        self.club_label.pack(side='left')
-        self.club_entry = ttk.Combobox(self.frame_one,
-            values=sorted(self.AD.clubs.keys()), textvariable=self.club_entered)
-        self.club_entry.pack(side='left')
-        self.club_entry.bind('<Return>', self.fillNotes)
-        self.club_entry.bind('<<ComboboxSelected>>', self.fillNotes)
+        self.clubTree() # Adds the tree to frame one
 
-        # Frame two
-        self.notes_label = tk.Label(self.frame_two, text='Notes')
-        self.notes_label.pack(side='top', anchor='nw')
-        self.notes_entry = tk.Text(self.frame_two, height=10)
-        self.notes_entry.pack(side='bottom', fill='both')
+        self.n_button = ttk.Button(self.frame_one, text='New',
+            command=self.newClub)
+        self.n_button.pack()
+        
+        self.e_button = ttk.Button(self.frame_one, text='Edit',
+                command=self.editClub, state='disable')
+        self.e_button.pack()
 
         # OK/Cancel Buttons
         self.c_button = ttk.Button(self.ok_cancel, text='Cancel',
@@ -58,29 +57,60 @@ class ClubNotes():
         self.c_button.pack(side='right')
 
         self.ok_button = ttk.Button(self.ok_cancel, text='Ok',
-            command=self.submit)
+            command=self.quit)
         self.ok_button.pack(side='right')
 
     #------------------------------------------------------
-    def fillNotes(self, event):
-        self.notes_entry.delete(1.0, 'end')
-        self.notes_entry.insert('end', self.AD.clubs[self.club_entered.get()])
+    def clubTree(self):
+        columns = ('1', '2')
+        self.tree_clubs = ttk.Treeview(self.frame_one, columns=columns,
+            show='headings')
+        self.tree_clubs.pack(side='left')
+
+        col_names = ['Club', 'Notes']
+        for num, item in enumerate(col_names):
+            self.tree_clubs.heading(columns[num], text=item)
+
+        for k, v in self.AD.clubs.items():
+            if v == None:
+                v = ''
+            self.tree_clubs.insert('', 'end', values=(k, v))
+    
+    #------------------------------------------------------
+    def updateClubTree(self):
+        self.tree_clubs.delete(*self.tree_clubs.get_children())
+
+        for k, v in self.AD.clubs.items():
+            if v == None:
+                v = ''
+            self.tree_clubs.insert('', 'end', values=(k, v))
+    
+    #------------------------------------------------------
+    def clubTreeBind(self, event):
+        # Enables Edit button if a club is selected
+        foc = self.tree_clubs.focus()
+        tree_item = self.tree_clubs.item
+
+        self.club_sel = tree_item(foc)['values'][0]
+        if self.club_sel in self.AD.clubs.keys():
+            self.e_button['state'] = 'normal'
+
+    #------------------------------------------------------
+    def newClub(self):
+        ge = generalEntry(self.clubs_entry, self.AD, 'Club')
+        ge.entry.wait_window(ge.entry)
+        self.updateClubTree()
+
+    #------------------------------------------------------
+    def editClub(self):
+        ge = generalEntry(self.clubs_entry, self.AD, 'Club',
+            self.club_sel, self.AD.clubs[self.club_sel])
+        ge.entry.wait_window(ge.entry)
+        self.updateClubTree()
 
     #------------------------------------------------------
     def quit(self):
-        # ASK ABOUT SAVING BEFORE QUITTING
         # Exit the club notes window
         self.clubs_entry.destroy()
-
-    #------------------------------------------------------
-    def submit(self):
-        # ADD DATA COLLECTION STUFF
-        # Grab all the entered data then exit
-        self.club = self.club_entered.get()
-        self.note = self.notes_entry.get('1.0', 'end-1c')
-        if self.club != '':
-            self.AD.addClub(self.club, self.note)
-
-        self.quit()
 
 #----------------------------------------------------------
