@@ -17,9 +17,11 @@ from entry_windows.trial_entry import TrialEntry
 from entry_windows.run_entry import RunEntry
 from entry_windows.calendar_entry import CalendarEntry
 from entry_windows.training_entry import TrainingEntry
-from entry_windows.judge_notes import JudgeNotes
-from entry_windows.club_notes import ClubNotes
-from entry_windows.loc_notes import LocNotes
+from entry_windows.general_notes import GeneralNotes
+
+#from entry_windows.judge_notes import JudgeNotes
+#from entry_windows.club_notes import ClubNotes
+#from entry_windows.loc_notes import LocNotes
 
 #----------------------------------------------------------
 
@@ -271,20 +273,20 @@ class AgilityApp(tk.Tk):
     #------------------------------------------------------
     def clubNotes(self):
         # Opens the club notes entry form
-        cn = ClubNotes(self, self.AD)
-        cn.clubs_entry.wait_window(cn.clubs_entry)
+        gn = GeneralNotes(self, self.AD, 'Clubs')
+        gn.entry.wait_window(gn.entry)
         
     #------------------------------------------------------
     def judgeNotes(self):
         # Opens the judge notes entry form
-        jn = JudgeNotes(self, self.AD)
-        jn.judges_entry.wait_window(jn.judges_entry)
+        gn = GeneralNotes(self, self.AD, 'Judges')
+        gn.entry.wait_window(gn.entry)
 
     #------------------------------------------------------
     def locNotes(self):
         # Opens the location notes entry form
-        ln = LocNotes(self, self.AD)
-        ln.loc_entry.wait_window(ln.loc_entry)
+        gn = GeneralNotes(self, self.AD, 'Locations')
+        gn.entry.wait_window(gn.entry)
 
     #------------------------------------------------------
     def addCalendar(self):

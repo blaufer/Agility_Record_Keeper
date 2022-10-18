@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 #------------------------------------------------------
-class generalEntry():
+class generalNotesSub():
 
     #------------------------------------------------------
     def __init__(self, main, ad, title, name=None, notes=None):
@@ -78,7 +78,7 @@ class generalEntry():
         elif self.title == 'Judge':
             self.AD.judges[self.gen] = self.text
         elif self.title == 'Location':
-            self.AD.locations[self.gen] == self.text
+            self.AD.locations[self.gen] = self.text
 
         self.quit()
 

@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 # My imports
-from entry_windows.general_window import generalEntry
+from entry_windows.general_window_sub import generalEntrySub
 
 #----------------------------------------------------------
 
@@ -97,13 +97,13 @@ class ClubNotes():
 
     #------------------------------------------------------
     def newClub(self):
-        ge = generalEntry(self.clubs_entry, self.AD, 'Club')
+        ge = generalEntrySub(self.clubs_entry, self.AD, 'Club')
         ge.entry.wait_window(ge.entry)
         self.updateClubTree()
 
     #------------------------------------------------------
     def editClub(self):
-        ge = generalEntry(self.clubs_entry, self.AD, 'Club',
+        ge = generalEntrySub(self.clubs_entry, self.AD, 'Club',
             self.club_sel, self.AD.clubs[self.club_sel])
         ge.entry.wait_window(ge.entry)
         self.updateClubTree()
