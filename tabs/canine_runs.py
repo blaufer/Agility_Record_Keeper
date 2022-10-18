@@ -123,6 +123,7 @@ class CanineRuns():
                 # Loop through runs
                 for r in v.values():
                     for k1, temp in r.items():
+                        print(temp)
                         self.tree_runs.insert('', 'end',
                             values=(temp['Q?'], temp['Title Pts'], temp['Score'],
                             temp['Date'], self.AD.trials[k]['Venue'], k1,
@@ -139,7 +140,8 @@ class CanineRuns():
             # Loop through runs
             for r in self.AD.canine[k9]['Trials'][tri].values():
                 for k1, temp in r.items():
-                    self.tree_runs.insert('', 'end',
+                    print(temp)
+                    self.tree_runs.insert('', 'end', 
                         values=(temp['Q?'], temp['Title Pts'], temp['Score'],
                         temp['Date'], self.AD.trials[tri]['Venue'], k1,
                         temp['Division'], temp['Level'], temp['Height'],
