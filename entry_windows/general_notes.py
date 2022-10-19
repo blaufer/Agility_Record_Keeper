@@ -72,6 +72,12 @@ class GeneralNotes():
 #----------------------------------------------------------
 
 class ClubNotes(GeneralNotes):
+    
+    #------------------------------------------------------
+    def __init__(self, main, ad):
+        self.title = 'Clubs'
+        
+        super().__init__(main, ad, self.title)
 
     #------------------------------------------------------
     def genTree(self):
@@ -96,6 +102,8 @@ class ClubNotes(GeneralNotes):
         for k, v in self.AD.clubs.items():
             if v == None:
                 v = ''
+            elif '\n' in v:
+                v = v.split('\n')[0]
             self.tree_gen.insert('', 'end', values=(k, v))
     
     #------------------------------------------------------
@@ -128,6 +136,12 @@ class ClubNotes(GeneralNotes):
 class JudgeNotes(GeneralNotes):
 
     #------------------------------------------------------
+    def __init__(self, main, ad):
+        self.title = 'Judges'
+        
+        super().__init__(main, ad, self.title)
+
+    #------------------------------------------------------
     def genTree(self):
         columns = ('1', '2')
         self.tree_gen = ttk.Treeview(self.frame_one, columns=columns,
@@ -141,6 +155,8 @@ class JudgeNotes(GeneralNotes):
         for k, v in self.AD.judges.items():
             if v == None:
                 v = ''
+            elif '\n' in v:
+                v = v.split('\n')[0]
             self.tree_gen.insert('', 'end', values=(k, v))
     
     #------------------------------------------------------
@@ -182,6 +198,12 @@ class JudgeNotes(GeneralNotes):
 class LocNotes(GeneralNotes):
 
     #------------------------------------------------------
+    def __init__(self, main, ad):
+        self.title = 'Locations'
+        
+        super().__init__(main, ad, self.title)
+
+    #------------------------------------------------------
     def genTree(self):
         columns = ('1', '2')
         self.tree_gen = ttk.Treeview(self.frame_one, columns=columns,
@@ -195,6 +217,8 @@ class LocNotes(GeneralNotes):
         for k, v in self.AD.locations.items():
             if v == None:
                 v = ''
+            elif '\n' in v:
+                v = v.split('\n')[0]
             self.tree_gen.insert('', 'end', values=(k, v))
     
     #------------------------------------------------------

@@ -270,19 +270,19 @@ class AgilityApp(tk.Tk):
     #------------------------------------------------------
     def clubNotes(self):
         # Opens the club notes entry form
-        gn = ClubNotes(self, self.AD, 'Clubs')
+        gn = ClubNotes(self, self.AD)
         gn.entry.wait_window(gn.entry)
         
     #------------------------------------------------------
     def judgeNotes(self):
         # Opens the judge notes entry form
-        gn = JudgeNotes(self, self.AD, 'Judges')
+        gn = JudgeNotes(self, self.AD)
         gn.entry.wait_window(gn.entry)
 
     #------------------------------------------------------
     def locNotes(self):
         # Opens the location notes entry form
-        gn = LocNotes(self, self.AD, 'Locations')
+        gn = LocNotes(self, self.AD)
         gn.entry.wait_window(gn.entry)
 
     #------------------------------------------------------
