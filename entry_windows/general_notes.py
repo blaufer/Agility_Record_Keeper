@@ -13,9 +13,9 @@ class GeneralNotes():
         self.entry = tk.Toplevel(main)
         self.entry.transient()
         self.entry.grab_set()
-        self.entry.title(title)
-
         self.title = title
+        self.entry.title(self.title)
+
         self.AD = ad
 
         # Setup
@@ -23,7 +23,7 @@ class GeneralNotes():
 
         # Bindings
         self.tree_gen.bind('<ButtonRelease-1>', self.genTreeBind)
-
+    
     #------------------------------------------------------
     def infoPopup(self):
         # Create the frames, treeview, and buttons
@@ -59,51 +59,44 @@ class GeneralNotes():
         self.ok_button.pack(side='right')
 
     #------------------------------------------------------
+    def newGen(self):
+        ge = generalNotesSub(self.entry, self.AD, self.title[:-1])
+        ge.entry.wait_window(ge.entry)
+        self.updateGenTree()
+
+    #------------------------------------------------------
+    def quit(self):
+        # Exit the gen window
+        self.entry.destroy()
+
+#----------------------------------------------------------
+
+class ClubNotes(GeneralNotes):
+
+    #------------------------------------------------------
     def genTree(self):
         columns = ('1', '2')
         self.tree_gen = ttk.Treeview(self.frame_one, columns=columns,
             show='headings')
         self.tree_gen.pack(side='left')
 
-        col_names = [self.title[:-1], 'Notes']
+        col_names = ['Clubs', 'Notes']
         for num, item in enumerate(col_names):
             self.tree_gen.heading(columns[num], text=item)
 
-        if self.title == 'Clubs':
-            for k, v in self.AD.clubs.items():
-                if v == None:
-                    v = ''
-                self.tree_gen.insert('', 'end', values=(k, v))
-        elif self.title == 'Judges':
-            for k, v in self.AD.judges.items():
-                if v == None:
-                    v = ''
-                self.tree_gen.insert('', 'end', values=(k, v))
-        elif self.title == 'Locations':
-            for k, v in self.AD.locations.items():
-                if v == None:
-                    v = ''
-                self.tree_gen.insert('', 'end', values=(k, v))
+        for k, v in self.AD.clubs.items():
+            if v == None:
+                v = ''
+            self.tree_gen.insert('', 'end', values=(k, v))
     
     #------------------------------------------------------
     def updateGenTree(self):
         self.tree_gen.delete(*self.tree_gen.get_children())
 
-        if self.title == 'Clubs':
-            for k, v in self.AD.clubs.items():
-                if v == None:
-                    v = ''
-                self.tree_gen.insert('', 'end', values=(k, v))
-        elif self.title == 'Judges':
-            for k, v in self.AD.judges.items():
-                if v == None:
-                    v = ''
-                self.tree_gen.insert('', 'end', values=(k, v))
-        elif self.title == 'Locations':
-            for k, v in self.AD.locations.items():
-                if v == None:
-                    v = ''
-                self.tree_gen.insert('', 'end', values=(k, v))
+        for k, v in self.AD.clubs.items():
+            if v == None:
+                v = ''
+            self.tree_gen.insert('', 'end', values=(k, v))
     
     #------------------------------------------------------
     def genTreeBind(self, event):
@@ -113,37 +106,129 @@ class GeneralNotes():
 
         self.gen_sel = tree_item(foc)['values'][0]
         
-        if self.title == 'Clubs' and self.gen_sel in self.AD.clubs.keys():
-            self.e_button['state'] = 'normal'
-        elif self.title == 'Judges' and self.gen_sel in self.AD.judges.keys():
-            self.e_button['state'] = 'normal'
-        if self.title == 'Locations' and self.gen_sel in self.AD.locations.keys():
+        if self.gen_sel in self.AD.clubs.keys():
             self.e_button['state'] = 'normal'
 
     #------------------------------------------------------
     def newGen(self):
-        ge = generalNotesSub(self.entry, self.AD, self.title[:-1])
+        ge = generalNotesSub(self.entry, self.AD, 'Club')
         ge.entry.wait_window(ge.entry)
         self.updateGenTree()
 
     #------------------------------------------------------
     def editGen(self):
-        if self.title == 'Clubs':
-            ge = generalNotesSub(self.entry, self.AD, 'Club',
-                self.gen_sel, self.AD.clubs[self.gen_sel])
-        elif self.title == 'Judges':
-            ge = generalNotesSub(self.entry, self.AD, 'Club',
-                self.gen_sel, self.AD.judges[self.gen_sel])
-        elif self.title == 'Locations':
-            ge = generalNotesSub(self.entry, self.AD, 'Club',
-                self.gen_sel, self.AD.locations[self.gen_sel])
+        ge = generalNotesSub(self.entry, self.AD, 'Club',
+            self.gen_sel, self.AD.clubs[self.gen_sel])
         
         ge.entry.wait_window(ge.entry)
         self.updateGenTree()
 
+#----------------------------------------------------------
+
+class JudgeNotes(GeneralNotes):
+
     #------------------------------------------------------
-    def quit(self):
-        # Exit the gen window
-        self.entry.destroy()
+    def genTree(self):
+        columns = ('1', '2')
+        self.tree_gen = ttk.Treeview(self.frame_one, columns=columns,
+            show='headings')
+        self.tree_gen.pack(side='left')
+
+        col_names = ['Judges', 'Notes']
+        for num, item in enumerate(col_names):
+            self.tree_gen.heading(columns[num], text=item)
+
+        for k, v in self.AD.judges.items():
+            if v == None:
+                v = ''
+            self.tree_gen.insert('', 'end', values=(k, v))
+    
+    #------------------------------------------------------
+    def updateGenTree(self):
+        self.tree_gen.delete(*self.tree_gen.get_children())
+
+        for k, v in self.AD.judges.items():
+            if v == None:
+                v = ''
+            self.tree_gen.insert('', 'end', values=(k, v))
+    
+    #------------------------------------------------------
+    def genTreeBind(self, event):
+        # Enables Edit button if a selection is made
+        foc = self.tree_gen.focus()
+        tree_item = self.tree_gen.item
+
+        self.gen_sel = tree_item(foc)['values'][0]
+        
+        if self.gen_sel in self.AD.judges.keys():
+            self.e_button['state'] = 'normal'
+
+    #------------------------------------------------------
+    def newGen(self):
+        ge = generalNotesSub(self.entry, self.AD, 'Judge')
+        ge.entry.wait_window(ge.entry)
+        self.updateGenTree()
+
+    #------------------------------------------------------
+    def editGen(self):
+        ge = generalNotesSub(self.entry, self.AD, 'Judge',
+            self.gen_sel, self.AD.judges[self.gen_sel])
+        
+        ge.entry.wait_window(ge.entry)
+        self.updateGenTree()
+
+#----------------------------------------------------------
+
+class LocNotes(GeneralNotes):
+
+    #------------------------------------------------------
+    def genTree(self):
+        columns = ('1', '2')
+        self.tree_gen = ttk.Treeview(self.frame_one, columns=columns,
+            show='headings')
+        self.tree_gen.pack(side='left')
+
+        col_names = ['Locations', 'Notes']
+        for num, item in enumerate(col_names):
+            self.tree_gen.heading(columns[num], text=item)
+
+        for k, v in self.AD.locations.items():
+            if v == None:
+                v = ''
+            self.tree_gen.insert('', 'end', values=(k, v))
+    
+    #------------------------------------------------------
+    def updateGenTree(self):
+        self.tree_gen.delete(*self.tree_gen.get_children())
+
+        for k, v in self.AD.locations.items():
+            if v == None:
+                v = ''
+            self.tree_gen.insert('', 'end', values=(k, v))
+    
+    #------------------------------------------------------
+    def genTreeBind(self, event):
+        # Enables Edit button if a selection is made
+        foc = self.tree_gen.focus()
+        tree_item = self.tree_gen.item
+
+        self.gen_sel = tree_item(foc)['values'][0]
+        
+        if self.gen_sel in self.AD.locations.keys():
+            self.e_button['state'] = 'normal'
+
+    #------------------------------------------------------
+    def newGen(self):
+        ge = generalNotesSub(self.entry, self.AD, 'Location')
+        ge.entry.wait_window(ge.entry)
+        self.updateGenTree()
+
+    #------------------------------------------------------
+    def editGen(self):
+        ge = generalNotesSub(self.entry, self.AD, 'Location',
+            self.gen_sel, self.AD.locations[self.gen_sel])
+        
+        ge.entry.wait_window(ge.entry)
+        self.updateGenTree()
 
 #----------------------------------------------------------
