@@ -2,7 +2,8 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 # My imports
-from entry_windows.general_notes_sub import generalNotesSub
+from entry_windows.general_notes_sub \
+    import ClubNotesSub, JudgeNotesSub, LocNotesSub
 
 #----------------------------------------------------------
 
@@ -119,13 +120,13 @@ class ClubNotes(GeneralNotes):
 
     #------------------------------------------------------
     def newGen(self):
-        ge = generalNotesSub(self.entry, self.AD, 'Club')
+        ge = ClubNotesSub(self.entry, self.AD)
         ge.entry.wait_window(ge.entry)
         self.updateGenTree()
 
     #------------------------------------------------------
     def editGen(self):
-        ge = generalNotesSub(self.entry, self.AD, 'Club',
+        ge = ClubNotesSub(self.entry, self.AD,
             self.gen_sel, self.AD.clubs[self.gen_sel])
         
         ge.entry.wait_window(ge.entry)
@@ -181,13 +182,13 @@ class JudgeNotes(GeneralNotes):
 
     #------------------------------------------------------
     def newGen(self):
-        ge = generalNotesSub(self.entry, self.AD, 'Judge')
+        ge = JudgeNotesSub(self.entry, self.AD)
         ge.entry.wait_window(ge.entry)
         self.updateGenTree()
 
     #------------------------------------------------------
     def editGen(self):
-        ge = generalNotesSub(self.entry, self.AD, 'Judge',
+        ge = JudgeNotesSub(self.entry, self.AD,
             self.gen_sel, self.AD.judges[self.gen_sel])
         
         ge.entry.wait_window(ge.entry)
@@ -243,13 +244,13 @@ class LocNotes(GeneralNotes):
 
     #------------------------------------------------------
     def newGen(self):
-        ge = generalNotesSub(self.entry, self.AD, 'Location')
+        ge = LocNotesSub(self.entry, self.AD)
         ge.entry.wait_window(ge.entry)
         self.updateGenTree()
 
     #------------------------------------------------------
     def editGen(self):
-        ge = generalNotesSub(self.entry, self.AD, 'Location',
+        ge = LocNotesSub(self.entry, self.AD,
             self.gen_sel, self.AD.locations[self.gen_sel])
         
         ge.entry.wait_window(ge.entry)

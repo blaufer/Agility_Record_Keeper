@@ -2,16 +2,17 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 #------------------------------------------------------
-class generalNotesSub():
+class GeneralNotesSub():
 
     #------------------------------------------------------
     def __init__(self, main, ad, title, name=None, notes=None):
         self.entry = tk.Toplevel(main)
         self.entry.transient()
         self.entry.grab_set()
-        self.entry.title(title)
-
         self.title = title
+        self.entry.title(self.title)
+
+        #self.title = title
         self.name = name
         self.notes = notes
         self.AD = ad
@@ -82,4 +83,82 @@ class generalNotesSub():
 
         self.quit()
 
+#----------------------------------------------------------
+
+class ClubNotesSub(GeneralNotesSub):
+
+    #------------------------------------------------------
+    def __init__(self, main, ad, name=None, notes=None):
+        self.title = 'Club'
+        self.name = name
+        self.notes = notes
+
+        super().__init__(main, ad, self.title, self.name, self.notes)
+
+    #------------------------------------------------------
+    def submit(self):
+        # Grab and return stuff
+        self.gen = self.gen_entry.get()
+        self.text = self.gen_text.get('1.0', 'end-1c')
+
+        if self.gen == '':
+            self.quit()
+            return
+
+        self.AD.clubs[self.gen] = self.text
+
+        self.quit()
+        
+#----------------------------------------------------------
+
+class JudgeNotesSub(GeneralNotesSub):
+
+    #------------------------------------------------------
+    def __init__(self, main, ad, name=None, notes=None):
+        self.title = 'Judge'
+        self.name = name
+        self.notes = notes
+
+        super().__init__(main, ad, self.title, self.name, self.notes)
+
+    #------------------------------------------------------
+    def submit(self):
+        # Grab and return stuff
+        self.gen = self.gen_entry.get()
+        self.text = self.gen_text.get('1.0', 'end-1c')
+
+        if self.gen == '':
+            self.quit()
+            return
+
+        self.AD.judges[self.gen] = self.text
+
+        self.quit()
+        
+#----------------------------------------------------------
+
+class LocNotesSub(GeneralNotesSub):
+
+    #------------------------------------------------------
+    def __init__(self, main, ad, name=None, notes=None):
+        self.title = 'Location'
+        self.name = name
+        self.notes = notes
+
+        super().__init__(main, ad, self.title, self.name, self.notes)
+
+    #------------------------------------------------------
+    def submit(self):
+        # Grab and return stuff
+        self.gen = self.gen_entry.get()
+        self.text = self.gen_text.get('1.0', 'end-1c')
+
+        if self.gen == '':
+            self.quit()
+            return
+
+        self.AD.locations[self.gen] = self.text
+
+        self.quit()
+        
 #----------------------------------------------------------
