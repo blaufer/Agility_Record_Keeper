@@ -79,6 +79,10 @@ class AgilityApp(tk.Tk):
         self.canine_runs.tree_canine.bind('<ButtonRelease-1>',
             self.canineTreeBind)
         self.protocol('WM_DELETE_WINDOW', self.quit) # Saves settings when X is clicked on
+        # Left Tree
+        self.canine_runs.tree_canine.bind('<Double-Button-1>', self.doubleClickCanineTrial)
+        # Right Tree
+        self.canine_runs.tree_runs.bind('<Double-Button-1>', self.doubleClickRun)
 
     #------------------------------------------------------
     def styleSettings(self):
@@ -327,6 +331,14 @@ class AgilityApp(tk.Tk):
         else:
             self.run_button['state'] = 'disabled'
             self.agility_menu.entryconfig('Run', state='disabled')
+
+    #------------------------------------------------------
+    def doubleClickCanineTrial(self, event):
+        self.canine_runs.canineOrTrial()
+    
+    #------------------------------------------------------
+    def doubleClickRun(self, event):
+        self.canine_runs.whichRun()
 
 #----------------------------------------------------------
 

@@ -123,8 +123,7 @@ class CanineRuns():
                 # Loop through runs
                 for r in v.values():
                     for k1, temp in r.items():
-                        print(temp)
-                        self.tree_runs.insert('', 'end',
+                        self.tree_runs.insert('', 'end', tags=(k),
                             values=(temp['Q?'], temp['Title Pts'], temp['Score'],
                             temp['Date'], self.AD.trials[k]['Venue'], k1,
                             temp['Division'], temp['Level'], temp['Height'],
@@ -140,8 +139,7 @@ class CanineRuns():
             # Loop through runs
             for r in self.AD.canine[k9]['Trials'][tri].values():
                 for k1, temp in r.items():
-                    print(temp)
-                    self.tree_runs.insert('', 'end', 
+                    self.tree_runs.insert('', 'end', tags=(tri), 
                         values=(temp['Q?'], temp['Title Pts'], temp['Score'],
                         temp['Date'], self.AD.trials[tri]['Venue'], k1,
                         temp['Division'], temp['Level'], temp['Height'],
@@ -262,5 +260,41 @@ class CanineRuns():
     #------------------------------------------------------
     def clearCanineTree(self):
         self.tree_canine.delete(*self.tree_canine.get_children())
+
+    #------------------------------------------------------
+    def canineOrTrial(self):
+        # Find out if Canine or Trial selected
+        foc = self.tree_canine.focus()
+        tree_item = self.tree_canine.item
+        tree_par = self.tree_canine.parent
+
+        # Canine Selected
+        if tree_item(foc)['text'] in self.AD.canine.keys():
+            k9 = tree_item(foc)['text']
+            print(k9)
+        # Canine and Trial Selected
+        else:
+            k9 = tree_item(tree_par(foc))['text']
+            tri = foc 
+            print(k9, tri)
+
+    #------------------------------------------------------
+    def whichRun(self):
+        # Find Canine first
+        foc = self.tree_canine.focus()
+        tree_item = self.tree_canine.item
+        tree_par = self.tree_canine.parent
+
+        if tree_item(foc)['text'] in self.AD.canine.keys():
+            k9 = tree_item(foc)['text']
+        # Canine and Trial Selected
+        else:
+            k9 = tree_item(tree_par(foc))['text']
+        
+        # Find run
+        foc = self.tree_runs.focus()
+        run = self.tree_runs.item(foc) # run['tags'][0] gives trial uid, 
+                                       # run['values'] gives the run info
+        print(k9, run)
 
 #----------------------------------------------------------
