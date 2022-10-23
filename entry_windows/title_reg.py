@@ -2,8 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 # My imports
-from entry_windows.general_notes_sub \
-    import ClubNotesSub, JudgeNotesSub, LocNotesSub
+from entry_windows.title_entry import TitleEntry
 
 #----------------------------------------------------------
 
@@ -46,8 +45,8 @@ class TitleReg():
             command=self.newGen)
         self.n_button.pack()
         
-        self.e_button = ttk.Button(self.frame_one, text='Edit',
-                command=self.editGen, state='disable')
+        self.e_button = ttk.Button(self.frame_one, text='Delete',
+                command=self.deleteGen, state='disable')
         self.e_button.pack()
 
         # OK/Cancel Buttons
@@ -106,29 +105,29 @@ class Titles(TitleReg):
     
     #------------------------------------------------------
     def genTreeBind(self, event):
-        # Enables Edit button if a selection is made
+        # Enables Delete button if a selection is made
         foc = self.tree_gen.focus()
         tree_item = self.tree_gen.item
 
-        self.gen_sel = tree_item(foc)['values'][0]
-        print(self.gen_sel)
-        #if self.gen_sel in self.AD.clubs.keys():
-        #    self.e_button['state'] = 'normal'
+        self.gen_sel = tree_item(foc)['values']
+        for item in self.AD.canine[self.name]['Titles']:
+            if self.gen_sel[1] == item['Title']:
+                self.e_button['state'] = 'normal'
+                break
 
     #------------------------------------------------------
     def newGen(self):
-        pass
-        #ge = ClubNotesSub(self.entry, self.AD)
-        #ge.entry.wait_window(ge.entry)
-        #self.updateGenTree()
+        te = TitleEntry(self.entry, self.AD, self.name)
+        te.titles_entry.wait_window(te.titles_entry)
+        self.updateGenTree()
 
     #------------------------------------------------------
-    def editGen(self):
-        pass
-        #ge = ClubNotesSub(self.entry, self.AD,
-        #    self.gen_sel, self.AD.clubs[self.gen_sel])
+    def deleteGen(self):
+        for num, item in enumerate(self.AD.canine[self.name]['Titles']):
+            if self.gen_sel[1] == item['Title']:
+                del self.AD.canine[self.name]['Titles'][num]
+                break
         
-        #ge.entry.wait_window(ge.entry)
-        #self.updateGenTree()
+        self.updateGenTree()
 
 #----------------------------------------------------------

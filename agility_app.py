@@ -11,8 +11,8 @@ from tabs.canine_runs import CanineRuns
 from tabs.calendar_tab import CalendarTab
 from tabs.training_tab import TrainingTab
 
-from entry_windows.temp_canine_entry import CanineEntry
-from entry_windows.title_entry import TitleEntry
+from entry_windows.canine_entry import CanineEntry
+from entry_windows.title_reg import Titles
 from entry_windows.trial_entry import TrialEntry
 from entry_windows.run_entry import RunEntry
 from entry_windows.calendar_entry import CalendarEntry
@@ -166,7 +166,7 @@ class AgilityApp(tk.Tk):
         self.canine_button.pack(side='left')
 
         self.title_button = ttk.Button(self.button_frame, text='Title',
-            command=self.addTitle, state='disable')
+            command=self.buttonTitles, state='disable')
         self.title_button.pack(side='left')
 
         self.trial_button = ttk.Button(self.button_frame, text='Trial',
@@ -251,10 +251,10 @@ class AgilityApp(tk.Tk):
         self.canine_runs.updateCanineTree()
 
     #------------------------------------------------------
-    def addTitle(self):
+    def buttonTitles(self):
         # Opens the title entry form
-        te = TitleEntry(self, self.AD, self.canine_runs.canine_selected)
-        te.title_entry.wait_window(te.title_entry)
+        te = Titles(self, self.AD, self.canine_runs.canine_selected)
+        te.entry.wait_window(te.entry)
 
     #------------------------------------------------------
     def addTrial(self):
