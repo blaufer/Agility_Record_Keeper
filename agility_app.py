@@ -11,7 +11,7 @@ from tabs.canine_runs import CanineRuns
 from tabs.calendar_tab import CalendarTab
 from tabs.training_tab import TrainingTab
 
-from entry_windows.canine_entry import CanineEntry
+from entry_windows.temp_canine_entry import CanineEntry
 from entry_windows.title_entry import TitleEntry
 from entry_windows.trial_entry import TrialEntry
 from entry_windows.run_entry import RunEntry
