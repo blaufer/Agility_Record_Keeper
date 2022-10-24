@@ -3,9 +3,8 @@ import tkinter.ttk as ttk
 from tkinter.font import Font
 import tkcalendar as tkc
 
-#from entry_windows.title_entry import TitleEntry
-#from entry_windows.registration_entry import RegEntry
-from entry_windows.title_reg import Titles
+from entry_windows.title_entry import TitleEntry
+from entry_windows.registration_entry import RegEntry
 from msg_box.message_box import MessageBox
 
 #----------------------------------------------------------
@@ -17,6 +16,7 @@ class CanineEntry():
         self.canine_entry = tk.Toplevel(main)
         self.canine_entry.transient()
         self.canine_entry.grab_set()
+
         self.canine_entry.title('Canine')
 
         self.AD = ad
@@ -26,171 +26,29 @@ class CanineEntry():
         self.breed_entry = tk.StringVar()
         self.reg_name_entry = tk.StringVar()
         self.deceased_entry = tk.IntVar()
-
+        
         # Setup
-        self.frameSetup()
-        self.entryBoxes()
+        self.addNotebooks()
 
-    #------------------------------------------------------
-    def frameSetup(self):
-        # Create the frames and buttons
+        # Add the separator and the ok/cancel buttons
+        # Different from other forms because of the notebooks
+        self.separator = ttk.Separator(self.canine_entry, orient='horizontal')
+        self.separator.pack(fill='x')
 
-        self.ce1 = ttk.Frame(self.canine_entry)
-        self.ce1.pack(side='top', fill='x')
-
-        self.ce2 = ttk.Frame(self.canine_entry)
-        self.ce2.pack(side='top', fill='x')
-
-        self.ce3 = ttk.Frame(self.canine_entry)
-        self.ce3.pack(side='top', fill='x')
-
-        self.ce4 = ttk.Frame(self.canine_entry)
-        self.ce4.pack(side='top', fill='x')
-        
-        self.sep1 = ttk.Separator(self.canine_entry, orient='horizontal')
-        self.sep1.pack(side='top', fill='x')
-
-        self.ce5 = ttk.Frame(self.canine_entry)
-        self.ce5.pack(side='top', fill='x')
-        
-        self.sep2 = ttk.Separator(self.canine_entry, orient='horizontal')
-        self.sep2.pack(side='top', fill='x')
-
-        self.ce6 = ttk.Frame(self.canine_entry)
-        self.ce6.pack(side='top', fill='x')
-        
-    #------------------------------------------------------
-    def entryBoxes(self):
-        # Add the entry boxes, titles, reg, and ok/cancel buttons
-        
-        #Frame one
-        self.call_label = tk.Label(self.ce1, text='Call Name')
-        self.call_label.pack(side='left')
-        self.call = ttk.Entry(self.ce1, textvariable=self.call_entry)
-        self.call.pack(side='left')
-        
-        self.breed_label = tk.Label(self.ce1, text='Breed')
-        self.breed_label.pack(side='left')
-        self.breed = ttk.Entry(self.ce1, textvariable=self.breed_entry)
-        self.breed.pack(side='left', fill='x')
-
-        # Frame two
-        self.reg_label = tk.Label(self.ce2, text='Registered Name')
-        self.reg_label.pack(side='left')
-        self.reg = ttk.Entry(self.ce2, textvariable=self.reg_name_entry)
-        self.reg.pack(fill='x')
-
-        # Frame three
-        self.birthday_label = tk.Label(self.ce3, text='Birthday')
-        self.birthday_label.pack(side='left')
-        self.birthday_entry = tkc.DateEntry(self.ce3, firstweekday='sunday',
-            showweeknumbers=False)
-        self.birthday_entry.pack(side='left')
-        self.dec = ttk.Checkbutton(self.ce3, text='Deceased',
-            variable=self.deceased_entry)
-        self.dec.pack(side='left')
-
-        # Frame four
-        self.notes_label = tk.Label(self.ce4, text='Notes')
-        self.notes_label.pack(side='top', anchor='nw')
-        self.notes = tk.Text(self.ce4,
-            height=10)
-        self.notes.pack(side='bottom', fill='both', anchor='sw')
-        
-        # Frame five
-        self.t_button = ttk.Button(self.ce5, text='Titles',
-            command=self.trials)
-        self.t_button.pack(side='left', expand=True, fill='both')
-        self.r_button = ttk.Button(self.ce5, text='Registrations',
-            command=self.regs)
-        self.r_button.pack(side='left', expand=True, fill='both')
-
-        # Frame six
         self.c_button = ttk.Button(self.canine_entry, text='Cancel',
             command=self.quit)
-        self.c_button.pack(side='right')   
+        self.c_button.pack(side='right')
+        
         self.ok_button = ttk.Button(self.canine_entry, text='OK',
             command=self.submit)
         self.ok_button.pack(side='right')
 
-    #------------------------------------------------------
-    def trials(self):
-        call_name = self.call_entry.get()
-        
-        # Check that call name is entered
-        if call_name == '':
-            MessageBox(self.canine_entry, 
-                'You must enter at\nleast a call name')
-            return
-        
-        # Check if call name already exists
-        if call_name in self.AD.canine:
-            MessageBox(self.canine_entry,
-                'This canine already exists')
-            return
-
-        breed = self.breed_entry.get()
-        if breed == '': breed = None
-        reg_name = self.reg_name_entry.get()
-        if reg_name == '': reg_name = None
-        deceased = self.deceased_entry.get()
-        note = self.notes.get('1.0', 'end-1c')
-        if note == '': note = None
-        temp = self.birthday_entry.get_date()
-        birthday = f'{temp.month}/{temp.day}/{temp.year}'
-       
-        self.AD.addCanine(call_name, birthday, deceased, breed,
-            reg_name, note)
-
-        tre = Titles(self.canine_entry, self.AD, call_name)
-        tre.entry.wait_window(tre.entry)
+        # Populate the notebooks
+        self.properties_tab()
+        self.titles_tab()
+        self.reg_tab()
 
     #------------------------------------------------------
-    def regs(self):
-        pass
-
-    #------------------------------------------------------
-    def quit(self):
-        # ASK ABOUT SAVING BEFORE QUITTING
-        # Exit the canine entry window
-        self.canine_entry.destroy()
-
-    #------------------------------------------------------
-    def submit(self):
-        # ADD DATA COLLECTION STUFF
-        # Grab all the entered data then exit
-        call_name = self.call_entry.get()
-        
-        # Check that call name is entered
-        if call_name == '':
-            MessageBox(self.canine_entry, 
-                'You must enter at\nleast a call name')
-            return
-        
-        # Check if call name already exists
-        if call_name in self.AD.canine:
-            MessageBox(self.canine_entry,
-                'This canine already exists')
-            return
-
-        breed = self.breed_entry.get()
-        if breed == '': breed = None
-        reg_name = self.reg_name_entry.get()
-        if reg_name == '': reg_name = None
-        deceased = self.deceased_entry.get()
-        note = self.notes.get('1.0', 'end-1c')
-        if note == '': note = None
-        temp = self.birthday_entry.get_date()
-        birthday = f'{temp.month}/{temp.day}/{temp.year}'
-       
-        self.AD.addCanine(call_name, birthday, deceased, breed,
-            reg_name, note)
-
-        self.canine_entry.destroy()
-
-#----------------------------------------------------------
-    
-'''
     def addNotebooks(self):
         # Add the tabs
         self.notebook = ttk.Notebook(self.canine_entry)
@@ -262,16 +120,18 @@ class CanineEntry():
     #------------------------------------------------------
     def titles_tab(self):
         # Setup the titles tab
-
+        
         # Create the treeview
-        columns = ('1', '2', '3', '4')
+        columns = ('1', '2', '3')
 
         self.titles_tree = ttk.Treeview(self.titles,
             columns=columns, show='headings')
-        self.titles_tree.pack(side='top', fill='both')
+        self.titles_tree.pack(side='left')
 
         # MAY NEED OTHER COLUMNS
-        col_names = ['Date', 'Venue', 'Title', 'Name']
+        col_names = ['Venue', 'Title', 'Date']
+        for num, item in enumerate(col_names):
+            self.titles_tree.heading(columns[num], text=item)
 
         for num, item in enumerate(col_names):
             mwidth = Font().measure(item)
@@ -284,25 +144,18 @@ class CanineEntry():
             self.titles_tree.heading(columns[num], text=item,
                 anchor='w')
 
-        # PLACEHOLDER
-        self.titles_tree.insert('', 'end', values=('10/8/2021',
-            'AKC', 'NA', 'Novice Agility'))
-        
-        # Add the buttons
-        self.tt1 = ttk.Frame(self.titles)
-        self.tt1.pack(side='top', fill='x')
-
-        self.new_title = ttk.Button(self.tt1, text='New',
+        # Add Buttons
+        self.new_title = ttk.Button(self.titles, text='New',
             command=self.addTitle)
-        self.new_title.pack(side='left')
+        self.new_title.pack()
 
-        self.edit_title = ttk.Button(self.tt1, text='Edit',
+        self.edit_title = ttk.Button(self.titles, text='Edit',
             command=self.editTitle)
-        self.edit_title.pack(side='left')
+        self.edit_title.pack()
 
-        self.del_title = ttk.Button(self.tt1, text='Delete',
+        self.del_title = ttk.Button(self.titles, text='Delete',
             command=self.delTitle)
-        self.del_title.pack(side='left')
+        self.del_title.pack()
 
     #------------------------------------------------------
     def reg_tab(self):
@@ -313,7 +166,7 @@ class CanineEntry():
 
         self.reg_tree = ttk.Treeview(self.reg_nums,
             columns=columns, show='headings')
-        self.reg_tree.pack(side='top', fill='both')
+        self.reg_tree.pack(side='left')
 
         # MAY NEED OTHER COLUMNS
         col_names = ['Venue', 'Number', 'Height', 'Received', 'Note']
@@ -329,26 +182,59 @@ class CanineEntry():
             self.reg_tree.heading(columns[num], text=item,
                 anchor='w')
 
-        # PLACEHOLDER
-        self.reg_tree.insert('', 'end', values=('AKC', 
-            'DN5458547', 18, '', ''))
-        
-        # Add the buttons
-        self.rt1 = ttk.Frame(self.reg_nums)
-        self.rt1.pack(side='top', fill='x')
-
-        self.new_reg = ttk.Button(self.rt1, text='New',
+        # Add Buttons
+        self.new_reg = ttk.Button(self.reg_nums, text='New',
             command=self.addReg)
-        self.new_reg.pack(side='left')
+        self.new_reg.pack()
 
-        self.edit_reg = ttk.Button(self.rt1, text='Edit',
+        self.edit_reg = ttk.Button(self.reg_nums, text='Edit',
             command=self.editReg)
-        self.edit_reg.pack(side='left')
+        self.edit_reg.pack()
 
-        self.del_reg = ttk.Button(self.rt1, text='Delete',
+        self.del_reg = ttk.Button(self.reg_nums, text='Delete',
             command=self.delReg)
-        self.del_reg.pack(side='left')
-    
+        self.del_reg.pack()
+
+    #------------------------------------------------------
+    def quit(self):
+        # ASK ABOUT SAVING BEFORE QUITTING
+        # Exit the canine entry window
+        self.canine_entry.destroy()
+
+    #------------------------------------------------------
+    def submit(self):
+        # ADD DATA COLLECTION STUFF
+        # Grab all the entered data then exit
+        call_name = self.call_entry.get()
+        
+        # Check that call name is entered
+        if call_name == '':
+            MessageBox(self.canine_entry, 
+                'You must enter at\nleast a call name')
+            return
+        
+        # Check if call name already exists
+        if call_name in self.AD.canine:
+            MessageBox(self.canine_entry,
+                'This canine already exists')
+            return
+
+        breed = self.breed_entry.get()
+        if breed == '': breed = None
+        reg_name = self.reg_name_entry.get()
+        if reg_name == '': reg_name = None
+        deceased = self.deceased_entry.get()
+        note = self.notes.get('1.0', 'end-1c')
+        if note == '': note = None
+        temp = self.birthday_entry.get_date()
+        birthday = f'{temp.month}/{temp.day}/{temp.year}'
+        
+
+        self.AD.addCanine(call_name, birthday, deceased, breed,
+            reg_name, note)
+
+        self.canine_entry.destroy()
+
     #------------------------------------------------------
     def addTitle(self):
         # Open the add title entry window
@@ -382,4 +268,5 @@ class CanineEntry():
         # Delete an entered registration
         # PLACEHOLDER
         print('Delete Reg')
-'''
+
+#----------------------------------------------------------

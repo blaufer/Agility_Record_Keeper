@@ -12,7 +12,7 @@ from tabs.calendar_tab import CalendarTab
 from tabs.training_tab import TrainingTab
 
 from entry_windows.canine_entry import CanineEntry
-from entry_windows.title_reg import Titles
+#from entry_windows.title_reg import Titles
 from entry_windows.trial_entry import TrialEntry
 from entry_windows.run_entry import RunEntry
 from entry_windows.calendar_entry import CalendarEntry
@@ -252,9 +252,10 @@ class AgilityApp(tk.Tk):
 
     #------------------------------------------------------
     def buttonTitles(self):
+        pass
         # Opens the title entry form
-        te = Titles(self, self.AD, self.canine_runs.canine_selected)
-        te.entry.wait_window(te.entry)
+        #te = Titles(self, self.AD, self.canine_runs.canine_selected)
+        #te.entry.wait_window(te.entry)
 
     #------------------------------------------------------
     def addTrial(self):
