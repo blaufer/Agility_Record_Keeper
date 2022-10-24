@@ -16,7 +16,7 @@ class RegEntry():
         self.venue_entered = tk.StringVar()
         self.regnum_entered = tk.StringVar()
         self.height_entered = tk.StringVar()
-        self.card_received_entered = tk.IntVar()
+        self.card_received_entered = tk.StringVar()
 
         # Setup
         self.setupEntry()
@@ -89,11 +89,12 @@ class RegEntry():
     def submit(self):
         # ADD DATA COLLECTION STUFF
         # Grab all the entered data then exit
-        self.venue = self.venue_entered.get()
-        self.regnum = self.regnum_entered.get()
-        self.height= self.height_entered.get()
-        self.card = self.card_received_entered.get()
+        venue = self.venue_entered.get()
+        regnum = self.regnum_entered.get()
+        height = self.height_entered.get()
+        card = self.card_received_entered.get()
 
+        self.reg_info = [venue, regnum, height, card, '']
         self.quit()
         
 #----------------------------------------------------------

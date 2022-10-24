@@ -46,9 +46,9 @@ class CanineEntry():
         self.ok_button.pack(side='right')
 
         # Populate the notebooks
-        self.properties_tab()
-        self.titles_tab()
-        self.reg_tab()
+        self.propertiesTab()
+        self.titlesTab()
+        self.regTab()
 
     #------------------------------------------------------
     def addNotebooks(self):
@@ -70,7 +70,7 @@ class CanineEntry():
         #self.notebook.add(self.exist_pts, text='Existing Points')
 
     #------------------------------------------------------
-    def properties_tab(self):
+    def propertiesTab(self):
         # Setup the properties tab
 
         # Frame one
@@ -120,7 +120,7 @@ class CanineEntry():
         self.notes.pack(side='bottom', fill='both', anchor='sw')
 
     #------------------------------------------------------
-    def titles_tab(self):
+    def titlesTab(self):
         # Setup the titles tab
         
         # Create the treeview
@@ -158,9 +158,16 @@ class CanineEntry():
         self.del_title = ttk.Button(self.titles, text='Delete',
             command=self.delTitle)
         self.del_title.pack()
+    
+    #------------------------------------------------------
+    def updateTitlesTree(self):
+        self.titles_tree.delete(*self.titles_tree.get_children())
+        for item in self.title_info:
+            self.titles_tree.insert('', 'end', values=(item[1],
+                item[2], item[0]))
 
     #------------------------------------------------------
-    def reg_tab(self):
+    def regTab(self):
         # Setup the registrations tab
 
         # Create the treeview
@@ -196,6 +203,13 @@ class CanineEntry():
         self.del_reg = ttk.Button(self.reg_nums, text='Delete',
             command=self.delReg)
         self.del_reg.pack()
+
+    #------------------------------------------------------
+    def updateRegTree(self):
+        self.reg_tree.delete(*self.reg_tree.get_children())
+        for item in self.reg_info:
+            self.reg_tree.insert('', 'end', values=(item[0],
+                item[1], item[2], item[3], item[4]))
 
     #------------------------------------------------------
     def quit(self):
@@ -239,8 +253,8 @@ class CanineEntry():
                     item[2])
         if len(self.reg_info) > 0:
             for item in self.reg_info:
-            self.AD.addReg(call_name, item[0], item[1], item[2],
-                item[3], item[4])
+                self.AD.addReg(call_name, item[0], item[1], item[2],
+                    item[3], item[4])
 
         self.canine_entry.destroy()
 
@@ -250,6 +264,7 @@ class CanineEntry():
         te = TitleEntry(self.canine_entry)
         te.titles_entry.wait_window(te.titles_entry)
         self.title_info.append(te.title_info)
+        self.updateTitlesTree()
 
     #------------------------------------------------------
     def editTitle(self):
@@ -260,13 +275,24 @@ class CanineEntry():
     #------------------------------------------------------
     def delTitle(self):
         # Delete an entered title
-        # PLACEHOLDER
-        print('Delete Title')
+        foc = self.titles_tree.focus()
+        tree_item = self.titles_tree.item
 
+        vals = tree_item(foc)['values']
+        match = [vals[2], vals[0], vals[1]]
+        for num, item in enumerate(self.title_info):
+            if item == match:
+                del self.title_info[num]
+                break
+        self.updateTitlesTree()
+    
     #------------------------------------------------------
     def addReg(self):
         # Open the add registration entry window
-        RegEntry(self.canine_entry)
+        re = RegEntry(self.canine_entry)
+        re.reg_entry.wait_window(re.reg_entry)
+        self.reg_info.append(re.reg_info)
+        self.updateRegTree()
 
     #------------------------------------------------------
     def editReg(self):
@@ -277,7 +303,15 @@ class CanineEntry():
     #------------------------------------------------------
     def delReg(self):
         # Delete an entered registration
-        # PLACEHOLDER
-        print('Delete Reg')
+        foc = self.reg_tree.focus()
+        tree_item = self.reg_tree.item
+
+        vals = tree_item(foc)['values']
+        vals[2] = str(vals[2])
+        for num, item in enumerate(self.reg_info):
+            if item == vals:
+                del self.reg_info[num]
+                break
+        self.updateRegTree()
 
 #----------------------------------------------------------

@@ -7,14 +7,11 @@ import tkcalendar as tkc
 class TitleEntry():
 
     #------------------------------------------------------
-    def __init__(self, main): #, ad, canine):
+    def __init__(self, main):
         self.titles_entry = tk.Toplevel(main)
         self.titles_entry.transient()
         self.titles_entry.grab_set()
         self.titles_entry.title('Title')
-
-        #self.AD = ad
-        #self.canine = canine
 
         self.titlePossibilities()
 
@@ -99,8 +96,6 @@ class TitleEntry():
         if title == '': venue = None
         temp = self.date_entry.get_date()
         date = f'{temp.month}/{temp.day}/{temp.year}'
-
-        #self.AD.addTitle(self.canine, date, venue, title)
 
         self.title_info = [date, venue, title]
         self.quit()
