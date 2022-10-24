@@ -26,7 +26,9 @@ class CanineEntry():
         self.breed_entry = tk.StringVar()
         self.reg_name_entry = tk.StringVar()
         self.deceased_entry = tk.IntVar()
-        
+        self.title_info = []
+        self.reg_info = []
+
         # Setup
         self.addNotebooks()
 
@@ -229,16 +231,25 @@ class CanineEntry():
         temp = self.birthday_entry.get_date()
         birthday = f'{temp.month}/{temp.day}/{temp.year}'
         
-
         self.AD.addCanine(call_name, birthday, deceased, breed,
             reg_name, note)
+        if len(self.title_info) > 0:
+            for item in self.title_info:
+                self.AD.addTitle(call_name, item[0], item[1],
+                    item[2])
+        if len(self.reg_info) > 0:
+            for item in self.reg_info:
+            self.AD.addReg(call_name, item[0], item[1], item[2],
+                item[3], item[4])
 
         self.canine_entry.destroy()
 
     #------------------------------------------------------
     def addTitle(self):
         # Open the add title entry window
-        TitleEntry(self.canine_entry)
+        te = TitleEntry(self.canine_entry)
+        te.titles_entry.wait_window(te.titles_entry)
+        self.title_info.append(te.title_info)
 
     #------------------------------------------------------
     def editTitle(self):

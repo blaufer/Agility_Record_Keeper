@@ -28,7 +28,7 @@ class AgilityData():
 
     #------------------------------------------------------
     def addCanine(self, name, dob=None, deceased=None, breed=None,
-        reg_name=None, notes=None, titles=None, reg_no=None):
+        reg_name=None, notes=None, titles=None):
         # Add a new canine
         if name not in self.canine:
             self.canine[name] = self.canine_entry
@@ -56,6 +56,19 @@ class AgilityData():
         self.canine[name]['Titles'][-1]['Date'] = date
         self.canine[name]['Titles'][-1]['Venue'] = venue
         self.canine[name]['Titles'][-1]['Title'] = title
+    
+    #------------------------------------------------------
+    def addReg(self, name, venue=None, number=None, height=None,
+        hc=None, note=None):
+        
+        # Add a registration to the given canine
+        self.canine[name]['Registration Number'].append(self.reg_entry)
+
+        self.canine[name]['Registration Number'][-1]['Venue'] = venue
+        self.canine[name]['Registration Number'][-1]['Number'] = Number
+        self.canine[name]['Registration Number'][-1]['Height'] = height
+        self.canine[name]['Registration Number'][-1]['HC Recieved'] = hc
+        self.canine[name]['Registration Number'][-1]['Note'] = note
     
     #------------------------------------------------------
     def addTrial(self, uid, name, date=None, club=None, loc=None, venue=None, notes=None):
