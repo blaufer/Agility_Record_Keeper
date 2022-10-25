@@ -165,6 +165,10 @@ class AgilityApp(tk.Tk):
             command=self.addCanine)
         self.canine_button.pack(side='left')
 
+        self.reg_button = ttk.Button(self.button_frame, text='Registration',
+            command=self.buttonReg, state='disable')
+        self.reg_button.pack(side='left')
+
         self.title_button = ttk.Button(self.button_frame, text='Title',
             command=self.buttonTitles, state='disable')
         self.title_button.pack(side='left')
@@ -251,11 +255,18 @@ class AgilityApp(tk.Tk):
         self.canine_runs.updateCanineTree()
 
     #------------------------------------------------------
+    def buttonReg(self):
+        # Open canine entry at the titles tab
+        ce = CanineEntry(self, self.AD)
+        ce.notebook.select(ce.reg_nums)
+        ce.canine_entry.wait_window(ce.canine_entry)
+
+    #------------------------------------------------------
     def buttonTitles(self):
-        pass
-        # Opens the title entry form
-        #te = Titles(self, self.AD, self.canine_runs.canine_selected)
-        #te.entry.wait_window(te.entry)
+        # Open canine entry at the titles tab
+        ce = CanineEntry(self, self.AD)
+        ce.notebook.select(ce.titles)
+        ce.canine_entry.wait_window(ce.canine_entry)
 
     #------------------------------------------------------
     def addTrial(self):
@@ -306,10 +317,16 @@ class AgilityApp(tk.Tk):
         # Enables/diasables title, trial, and run
         # buttons/menu items
         self.canine_runs.runCanineData(event)
+        self.regItem(event)
         self.titleItem(event)
         self.trialItem(event)
         self.runItem(event)
 
+    #------------------------------------------------------
+    def regItem(self, event):
+        # Enables title button when a canine is selected
+        self.reg_button['state'] = 'normal'
+        
     #------------------------------------------------------
     def titleItem(self, event):
         # Enables title button when a canine is selected
