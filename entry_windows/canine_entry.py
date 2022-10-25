@@ -315,3 +315,74 @@ class CanineEntry():
         self.updateRegTree()
 
 #----------------------------------------------------------
+
+class EditCanineEntry(CanineEntry):
+
+    #------------------------------------------------------
+    def __init__(self, main, ad, canine):
+        self.canine = canine
+        super().__init__(main, ad)
+        
+        self.addData()
+        self.updateTitlesTree()
+        self.updateRegTree()
+
+    #------------------------------------------------------
+    def addData(self):
+        # Add the already entered info
+        canine_info = self.AD.canine[self.canine]
+        self.call.insert('end', self.canine)
+        self.call.config(state='disabled')
+        self.breed.insert('end', canine_info['Breed'])
+        self.reg.insert('end', canine_info['Registered Name'])
+        self.birthday_entry.set_date(canine_info['DOB'])
+        if canine_info['Deceased']:
+            self.dec.select()
+        self.notes.insert('end', canine_info['Notes'])
+
+    #------------------------------------------------------
+    def updateTitlesTree(self):
+        self.titles_tree.delete(*self.titles_tree.get_children())
+        for item in self.AD.canine[self.canine]['Titles']:
+            self.titles_tree.insert('', 'end', values=(item['Venue'],
+                item['Title'], item['Date']))
+
+    #------------------------------------------------------
+    def updateRegTree(self):
+        self.reg_tree.delete(*self.reg_tree.get_children())
+        for item in self.AD.canine[self.canine]['Registration']:
+            self.reg_tree.insert('', 'end', values=(item['Venue'],
+                item['Number'], item['Height'], item['HC Recieved'],
+                item['Note']))
+
+    #------------------------------------------------------
+    def submit(self):
+        # ADD DATA COLLECTION STUFF
+        # Grab all the entered data then exit
+        breed = self.breed_entry.get()
+        if breed == '': breed = None
+        reg_name = self.reg_name_entry.get()
+        if reg_name == '': reg_name = None
+        deceased = self.deceased_entry.get()
+        note = self.notes.get('1.0', 'end-1c')
+        if note == '': note = None
+        temp = self.birthday_entry.get_date()
+        birthday = f'{temp.month}/{temp.day}/{temp.year}'
+        
+        self.AD.addCanine(self.canine, birthday, deceased, breed,
+            reg_name, note)
+        
+
+        # FIX POSSIBLE DOUBLING
+        if len(self.title_info) > 0:
+            for item in self.title_info:
+                self.AD.addTitle(self.canine, item[0], item[1],
+                    item[2])
+        if len(self.reg_info) > 0:
+            for item in self.reg_info:
+                self.AD.addReg(self.canine, item[0], item[1], item[2],
+                    item[3], item[4])
+
+        self.canine_entry.destroy()
+
+#----------------------------------------------------------

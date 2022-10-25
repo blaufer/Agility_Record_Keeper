@@ -11,7 +11,7 @@ from tabs.canine_runs import CanineRuns
 from tabs.calendar_tab import CalendarTab
 from tabs.training_tab import TrainingTab
 
-from entry_windows.canine_entry import CanineEntry
+from entry_windows.canine_entry import CanineEntry, EditCanineEntry
 #from entry_windows.title_reg import Titles
 from entry_windows.trial_entry import TrialEntry
 from entry_windows.run_entry import RunEntry
@@ -264,7 +264,11 @@ class AgilityApp(tk.Tk):
     #------------------------------------------------------
     def buttonTitles(self):
         # Open canine entry at the titles tab
-        ce = CanineEntry(self, self.AD)
+        
+        #TEMP to check working status
+        ce = EditCanineEntry(self, self.AD, 'Remy')
+        #ce = EditCanineEntry(self, self.AD)
+        
         ce.notebook.select(ce.titles)
         ce.canine_entry.wait_window(ce.canine_entry)
 
