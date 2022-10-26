@@ -165,6 +165,9 @@ class AgilityApp(tk.Tk):
             command=self.addCanine)
         self.canine_button.pack(side='left')
 
+        self.separator1 = ttk.Separator(self.button_frame, orient='vertical')
+        self.separator1.pack(side='left', fill='y', padx=5)
+
         self.reg_button = ttk.Button(self.button_frame, text='Registration',
             command=self.buttonReg, state='disable')
         self.reg_button.pack(side='left')
@@ -180,6 +183,9 @@ class AgilityApp(tk.Tk):
         self.run_button = ttk.Button(self.button_frame, text='Run',
             command=self.addRun, state='disable')
         self.run_button.pack(side='left')
+
+        self.separator2 = ttk.Separator(self.button_frame, orient='vertical')
+        self.separator2.pack(side='left', fill='y', padx=5)
 
         self.calendar_button = ttk.Button(self.button_frame, text='Calendar',
             command=self.addCalendar)
