@@ -83,7 +83,7 @@ class CalendarTab():
         self.calendar_frame.pack(fill='both', expand=1)
 
         self.calendar_buttons = ttk.Frame(self.calendar_frame)
-        self.calendar_buttons.pack(fill='x')
+        self.calendar_buttons.pack(fill='x', padx=(0,5))
 
         # Add prev and next month buttons
         self.prev_month = ttk.Button(self.calendar_buttons,
@@ -96,7 +96,7 @@ class CalendarTab():
 
         # Start the calendar grid for the title, days, etc.
         self.calendar_grid = ttk.Frame(self.calendar_frame)
-        self.calendar_grid.pack(fill='both', expand=1)
+        self.calendar_grid.pack(fill='both', expand=1, padx=(0,5))
 
         # Get the enitre width and set each column to the 
         # same size
