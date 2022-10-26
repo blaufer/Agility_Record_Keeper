@@ -256,19 +256,15 @@ class AgilityApp(tk.Tk):
 
     #------------------------------------------------------
     def buttonReg(self):
-        # Open canine entry at the titles tab
-        ce = CanineEntry(self, self.AD)
+        # Open canine entry at the registration tab
+        ce = EditCanineEntry(self, self.AD, self.canine_runs.canine_selected)
         ce.notebook.select(ce.reg_nums)
         ce.canine_entry.wait_window(ce.canine_entry)
 
     #------------------------------------------------------
     def buttonTitles(self):
-        # Open canine entry at the titles tab
-        
-        #TEMP to check working status
-        ce = EditCanineEntry(self, self.AD, 'Remy')
-        #ce = EditCanineEntry(self, self.AD)
-        
+        # Open canine entry at the titles tab 
+        ce = EditCanineEntry(self, self.AD, self.canine_runs.canine_selected)
         ce.notebook.select(ce.titles)
         ce.canine_entry.wait_window(ce.canine_entry)
 
