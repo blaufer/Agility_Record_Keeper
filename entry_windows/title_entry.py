@@ -18,7 +18,8 @@ class TitleEntry():
         # Variable
         self.venue_entered = tk.StringVar()
         self.title_entered = tk.StringVar()
-        
+        self.title_info = None
+
         # Setup
         self.setupEntry()
 
@@ -186,4 +187,25 @@ class TitleEntry():
                                     ]
                                 }
 
+#----------------------------------------------------------
+
+class EditTitleEntry(TitleEntry):
+
+    #------------------------------------------------------
+    def __init__(self, main, title_info):
+        super().__init__(main)
+        self.title_info = title_info
+
+        self.addData()
+
+    #------------------------------------------------------
+    def addData(self):
+        self.date_entry.set_date(self.title_info[2])
+        self.venue_entry.current(0)
+        self.getEventData(False)
+        for num, item in enumerate(self.venue_titles['AKC']):
+            if item == self.title_info[1]:
+                break
+        self.title_entry.current(num)
+    
 #----------------------------------------------------------

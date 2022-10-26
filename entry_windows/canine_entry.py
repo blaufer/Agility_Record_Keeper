@@ -3,8 +3,8 @@ import tkinter.ttk as ttk
 from tkinter.font import Font
 import tkcalendar as tkc
 
-from entry_windows.title_entry import TitleEntry
-from entry_windows.registration_entry import RegEntry
+from entry_windows.title_entry import TitleEntry, EditTitleEntry
+from entry_windows.registration_entry import RegEntry, EditRegEntry
 from msg_box.message_box import MessageBox
 
 #----------------------------------------------------------
@@ -306,7 +306,7 @@ class CanineEntry():
         foc = self.reg_tree.focus()
         tree_item = self.reg_tree.item
 
-        vals = tree_item(foc)['values']
+        vals= tree_item(foc)['values']
         vals[2] = str(vals[2])
         for num, item in enumerate(self.reg_info):
             if item == vals:
@@ -390,18 +390,33 @@ class EditCanineEntry(CanineEntry):
         # Open the add title entry window
         te = TitleEntry(self.canine_entry)
         te.titles_entry.wait_window(te.titles_entry)
-        self.AD.canine[self.canine]['Titles'].append(
-            {'Date': te.title_info[0],
-             'Venue': te.title_info[1],
-             'Title': te.title_info[2]
-            })
+        if te.title_info is not None:
+            self.AD.canine[self.canine]['Titles'].append(
+                {'Date': te.title_info[0],
+                 'Venue': te.title_info[1],
+                 'Title': te.title_info[2]
+                })
         self.updateTitlesTree()
 
     #------------------------------------------------------
     def editTitle(self):
-        # Open the add title entry window?
-        # PLACEHOLDER
-        print('Edit Title')
+        # Open the add title entry window with data filled
+        foc = self.titles_tree.focus()
+        tree_item = self.titles_tree.item
+
+        vals = tree_item(foc)['values']
+        match = {'Venue': vals[0], 'Title': vals[1], 'Date': vals[2]}
+        for num, item in enumerate(self.AD.canine[self.canine]['Titles']):
+            if item == match:
+                te = EditTitleEntry(self.canine_entry, vals)
+                te.titles_entry.wait_window(te.titles_entry)
+                self.AD.canine[self.canine]['Titles'][num] = \
+                    {'Date': te.title_info[0],
+                     'Venue': te.title_info[1],
+                     'Title': te.title_info[2]
+                    }
+                break
+        self.updateTitlesTree()
 
     #------------------------------------------------------
     def delTitle(self):
@@ -422,20 +437,36 @@ class EditCanineEntry(CanineEntry):
         # Open the add registration entry window
         re = RegEntry(self.canine_entry)
         re.reg_entry.wait_window(re.reg_entry)
-        self.AD.canine[self.canine]['Registration'].append(
-            {'Venue': re.reg_info[0],
-             'Number': re.reg_info[1],
-             'Height': re.reg_num[2],
-             'HC Recieved': re.reg_num[3],
-             'Note': re.reg_num[4]
-            })
+        if re.reg_info is not None:
+            self.AD.canine[self.canine]['Registration'].append(
+                {'Venue': re.reg_info[0],
+                 'Number': re.reg_info[1],
+                 'Height': re.reg_info[2],
+                 'HC Recieved': re.reg_info[3],
+                 'Note': re.reg_info[4]
+                })
         self.updateRegTree()
 
     #------------------------------------------------------
     def editReg(self):
-        # Open the add registration entry window?
-        # PLACEHOLDER
-        print('Edit Reg')
+        # Open the add registration entry window with data filled
+        foc = self.reg_tree.focus()
+        tree_item = self.reg_tree.item
+
+        vals = tree_item(foc)['values']
+        for num, item in enumerate(self.AD.canine[self.canine]['Registration']):
+            if item['Number'] == vals[1]:
+                re = EditRegEntry(self.canine_entry, vals)
+                re.reg_entry.wait_window(re.reg_entry)
+                self.AD.canine[self.canine]['Registration'][num] = \
+                    {'Venue': re.reg_info[0],
+                     'Number': re.reg_info[1],
+                     'Height': re.reg_info[2],
+                     'HC Recieved': re.reg_info[3],
+                     'Note': re.reg_info[4]
+                    }
+                break
+        self.updateRegTree()
 
     #------------------------------------------------------
     def delReg(self):

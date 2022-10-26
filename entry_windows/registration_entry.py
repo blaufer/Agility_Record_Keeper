@@ -17,6 +17,7 @@ class RegEntry():
         self.regnum_entered = tk.StringVar()
         self.height_entered = tk.StringVar()
         self.card_received_entered = tk.StringVar()
+        self.reg_info = None
 
         # Setup
         self.setupEntry()
@@ -69,6 +70,7 @@ class RegEntry():
         # Frame four
         self.recieved = ttk.Checkbutton(self.frame_four, text='Height Card Received',
             variable=self.card_received_entered)
+        self.recieved.pack(side='left')
 
         # OK/Cancel Buttons
         self.c_button = ttk.Button(self.ok_cancel, text='Cancel',
@@ -97,4 +99,23 @@ class RegEntry():
         self.reg_info = [venue, regnum, height, card, '']
         self.quit()
         
+#----------------------------------------------------------
+
+class EditRegEntry(RegEntry):
+
+    #------------------------------------------------------
+    def __init__(self, main, reg_info):
+        super().__init__(main)
+        self.reg_info = reg_info
+
+        self.addData()
+
+    #------------------------------------------------------
+    def addData(self):
+        self.venue_entry.current(0)
+        self.regnum_entry.insert('end', self.reg_info[1])
+        self.height_entry.insert('end', self.reg_info[2])
+        if self.reg_info == 1:
+            self.recieved.select()
+
 #----------------------------------------------------------
