@@ -348,7 +348,7 @@ class AgilityApp(tk.Tk):
     def runItem(self, event):
         # Enables/diasbles run button/menu item when
         # a trial is selectd
-        if self.canine_runs.trial_selected != None:
+        if self.canine_runs.trial_selected is not None:
             self.run_button['state'] = 'normal'
             self.agility_menu.entryconfig('Run', state='normal')
         else:

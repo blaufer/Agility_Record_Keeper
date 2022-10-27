@@ -11,9 +11,9 @@ class CanineRuns():
         self.parent = parent
         self.AD = ad
 
-        # Used to turn buttons/menu items
-        # (title/trial/run) on or off
-        self.trial_selected = False
+        self.canine_selected = None
+        self.trial_selected = None
+        self.run_selected = None
 
     #------------------------------------------------------
     def runsTab(self):
@@ -96,14 +96,6 @@ class CanineRuns():
                 keyt = self.tree_canine.insert(key, 'end', iid=kt,
                     text=f'{self.AD.trials[kt]["Date"]} {self.AD.trials[kt]["Club"]}')
                 self.canine_items[key][keyt] = {}
-                '''
-                #No Longer Want This
-                # Loop through the runs
-                for kr in self.AD.canine[kc]['Trials'][kt]['Runs'].keys():
-                    keyc = self.tree_canine.insert(keyt, 'end',
-                        text=f'{self.AD.canine[kc]["Trials"][kt]["Runs"][kr]["Division"]} {kr}')
-                    self.canine_items[key][keyt][keyc] = {}
-                '''
 
     #------------------------------------------------------
     def runCanineData(self, event):
@@ -149,86 +141,6 @@ class CanineRuns():
             self.trial_selected = tri
             self.run_selected = None
 
-        '''
-        # BEFORE UID CHANGE - Leaving in case
-        # Add data to the right tree based upon which canine, or trial is selected
-        foc = self.tree_canine.focus()
-        tree_item = self.tree_canine.item
-        tree_par = self.tree_canine.parent
-        
-        # Deletes current items in right tree
-        self.tree_runs.delete(*self.tree_runs.get_children())
-
-        # Get selected item and its parents (if any)
-        t1 = tree_item(foc)
-        p1 = tree_item(tree_par(foc))['text']
-        print(t1)
-        print(p1)
-        if p1 != '':
-            t1 = t1.iid
-            print(t1)
-            p2 = tree_item(tree_par(tree_par(foc)))['text']
-            # If two parents, then a run is selected    
-            if p2 != '':
-                t1 = t1.split()[-1]
-                p1 = p1.split()[0]
-                runs = self.AD.canine[p2]['Trials'][p1]
-                for k, v in runs['Runs'].items():
-                    temp = v
-                    for k1, v1 in temp.items():
-                        if v1 == None:
-                            temp[k1] = ''
-                    self.tree_runs.insert('', 'end',
-                        values=(temp['Q?'], temp['Title Pts'], temp['Score'],
-                        p1, self.AD.canine[p2]['Trials'][p1]['Venue'], k,
-                        temp['Division'], temp['Level'], temp['Height'],
-                        temp['Judge'], temp['Time'], temp['Place'],
-                        temp['Total Dogs'], temp['Qd'], temp['Notes']))
-                self.canine_selected = p2
-                self.trial_selected = p1
-                self.run_selected = t1
-                # Highlight selected run
-                self.highlightRun()
-            # If one parent, then a trial is selected
-            else:
-                t1 = t1.split()[0]
-                p1 = p1.split()[-1]
-                runs = self.AD.canine[p1]['Trials'][t1]
-                for k, v in runs['Runs'].items():
-                    temp = v
-                    for k1, v1 in temp.items():
-                        if v1 == None:
-                            temp[k1] = ''
-                    self.tree_runs.insert('', 'end',
-                        values=(temp['Q?'], temp['Title Pts'], temp['Score'],
-                        t1, self.AD.canine[p1]['Trials'][t1]['Venue'], k,
-                        temp['Division'], temp['Level'], temp['Height'],
-                        temp['Judge'], temp['Time'], temp['Place'],
-                        temp['Total Dogs'], temp['Qd'], temp['Notes']))
-                self.canine_selected = p1
-                self.trial_selected = t1
-                self.run_selected = None
-        # If no parents, then it is a canine selected
-        else:
-            trials = self.AD.canine[t1]['Trials']
-            for k2, v2 in trials.items():
-                runs = v2
-                for k, v in runs['Runs'].items():
-                    temp = v
-                    for k1, v1 in temp.items():
-                        if v1 == None:
-                            temp[k1] = ''
-                    self.tree_runs.insert('', 'end',
-                        values=(temp['Q?'], temp['Title Pts'], temp['Score'],
-                        k2, self.AD.canine[t1]['Trials'][k2]['Venue'], k,
-                        temp['Division'], temp['Level'], temp['Height'],
-                        temp['Judge'], temp['Time'], temp['Place'],
-                        temp['Total Dogs'], temp['Qd'], temp['Notes']))
-            self.canine_selected = t1
-            self.trial_selected = None
-            self.run_selected = None
-        '''
-
     #------------------------------------------------------
     def highlightRun(self):
         children = self.tree_runs.get_children()
@@ -248,52 +160,9 @@ class CanineRuns():
                 keyt = self.tree_canine.insert(key, 'end', iid=kt,
                     text=f'{self.AD.trials[kt]["Date"]} {self.AD.trials[kt]["Club"]}')
                 self.canine_items[key][keyt] = {}
-                '''
-                # No Longer Want this
-                # Loop through the runs
-                for kr in self.AD.canine[kc]['Trials'][kt]['Runs'].keys():
-                    keyc = self.tree_canine.insert(keyt, 'end',
-                        text=f'{self.AD.canine[kc]["Trials"][kt]["Runs"][kr]["Division"]} {kr}')
-                    self.canine_items[key][keyt][keyc] = {}
-                '''
 
     #------------------------------------------------------
     def clearCanineTree(self):
         self.tree_canine.delete(*self.tree_canine.get_children())
-
-    #------------------------------------------------------
-    def canineOrTrial(self):
-        # Find out if Canine or Trial selected
-        foc = self.tree_canine.focus()
-        tree_item = self.tree_canine.item
-        tree_par = self.tree_canine.parent
-
-        # Canine Selected
-        if tree_item(foc)['text'] in self.AD.canine.keys():
-            self.canine_selected = tree_item(foc)['text']
-            self.trial_selected = None
-        # Canine and Trial Selected
-        else:
-            self.canine_selected = tree_item(tree_par(foc))['text']
-            self.trial_selected = foc
-
-    #------------------------------------------------------
-    def whichRun(self):
-        # Find Canine first
-        foc = self.tree_canine.focus()
-        tree_item = self.tree_canine.item
-        tree_par = self.tree_canine.parent
-
-        if tree_item(foc)['text'] in self.AD.canine.keys():
-            k9 = tree_item(foc)['text']
-        # Canine and Trial Selected
-        else:
-            k9 = tree_item(tree_par(foc))['text']
-        
-        # Find run
-        foc = self.tree_runs.focus()
-        run = self.tree_runs.item(foc) # run['tags'][0] gives trial uid, 
-                                       # run['values'] gives the run info
-        print(k9, run)
 
 #----------------------------------------------------------
