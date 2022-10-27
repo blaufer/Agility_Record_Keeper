@@ -13,7 +13,7 @@ from tabs.training_tab import TrainingTab
 
 from entry_windows.canine_entry import CanineEntry, EditCanineEntry
 from entry_windows.trial_entry import TrialEntry, EditTrialEntry
-from entry_windows.run_entry import RunEntry
+from entry_windows.run_entry import RunEntry, EditRunEntry
 from entry_windows.calendar_entry import CalendarEntry
 from entry_windows.training_entry import TrainingEntry
 from entry_windows.general_notes \
@@ -77,6 +77,8 @@ class AgilityApp(tk.Tk):
         # Bindings
         self.canine_runs.tree_canine.bind('<ButtonRelease-1>',
             self.canineTreeBind)
+        self.canine_runs.tree_runs.bind('<ButtonRelease-1>',
+            self.canineTreeRunBind)
         self.protocol('WM_DELETE_WINDOW', self.quit) # Saves settings when X is clicked on
         # Left Tree
         self.canine_runs.tree_canine.bind('<Double-Button-1>', self.doubleClickCanineTrial)
@@ -328,6 +330,10 @@ class AgilityApp(tk.Tk):
         self.runItem(event)
 
     #------------------------------------------------------
+    def canineTreeRunBind(self, event):
+        self.canine_runs.runSelected()
+
+    #------------------------------------------------------
     def regItem(self, event):
         # Enables title button when a canine is selected
         self.reg_button['state'] = 'normal'
@@ -357,8 +363,6 @@ class AgilityApp(tk.Tk):
 
     #------------------------------------------------------
     def doubleClickCanineTrial(self, event):
-        #self.canine_runs.canineOrTrial()
-        print(self.canine_runs.canine_selected, self.canine_runs.trial_selected)
         if self.canine_runs.trial_selected is not None:
             te = EditTrialEntry(self, self.AD, self.canine_runs.canine_selected, \
                 self.canine_runs.trial_selected)
@@ -371,8 +375,11 @@ class AgilityApp(tk.Tk):
     
     #------------------------------------------------------
     def doubleClickRun(self, event):
-        self.canine_runs.whichRun()
-
+        re = EditRunEntry(self, self.AD, self.canine_runs.canine_selected,
+            self.canine_runs.trial_selected, self.canine_runs.run_selected)
+        re.run_entry.wait_window(re.run_entry)
+        self.canine_runs.runCanineData(None)
+        
 #----------------------------------------------------------
 
 if __name__ == '__main__':

@@ -22,7 +22,6 @@ class RunEntry():
         self.date = self.AD.trials[uid]['Date']
 
         # Variables
-        self.trial_entered = tk.StringVar()
         self.division_entered = tk.StringVar()
         self.level_entered = tk.StringVar()
         self.event_entered = tk.StringVar()
@@ -81,9 +80,6 @@ class RunEntry():
     def entryBoxes(self):
         # Add the entry boxes and ok/cancel buttons
 
-        # PLACEHOLDER
-        self.trial_selection = ['[AKC] GSDCA']
-
         # Frame one
         self.date_label = tk.Label(self.re1, text='Date')
         self.date_label.pack(side='left')
@@ -92,9 +88,10 @@ class RunEntry():
         self.date_entry.set_date(self.date)
         self.date_entry.pack(side='left', fill='x')
 
-        self.trial_entry = ttk.Combobox(self.re1, value=self.trial_selection,
-            textvariable=self.trial_entered)
-        self.trial_entry.current(0)
+        self.trial_entry = ttk.Entry(self.re1)
+        self.trial_entry.insert('end',
+            f"[{self.AD.trials[self.uid]['Venue']}] {self.AD.trials[self.uid]['Club']}")
+        self.trial_entry.config(state='disabled')
         self.trial_entry.pack(side='left')
 
         # Only have AKC so far
@@ -133,7 +130,6 @@ class RunEntry():
         # Frame three
         self.height_selection = [4, 8, 12, 16, 20, 24]
         self.judge_selection = sorted(self.AD.judges.keys())
-        self.handler_selection = ['Brandon Laufer'] #PLACEHOLDER
 
         self.height_label = tk.Label(self.re3, text='Height')
         self.height_label.pack(side='left')
@@ -149,8 +145,7 @@ class RunEntry():
 
         self.handler_label = tk.Label(self.re3, text='Handler')
         self.handler_label.pack(side='left')
-        self.handler_entry = ttk.Combobox(self.re3, value=self.handler_selection,
-            textvariable=self.handler_entered)
+        self.handler_entry = ttk.Entry(self.re3, textvariable=self.handler_entered)
         self.handler_entry.pack(side='left')
 
         # Frame four
@@ -268,7 +263,6 @@ class RunEntry():
         # Grab all the entered data then exit
         self.date = self.date_entry.get_date()
         self.date = f'{self.date.month}/{self.date.day}/{self.date.year}'
-        self.trial = self.trial_entered.get()
         self.division = self.division_entered.get()
         self.level = self.level_entered.get()
         self.event = self.event_entered.get()
@@ -298,3 +292,71 @@ class RunEntry():
         self.quit()
 
 #----------------------------------------------------------
+
+class EditRunEntry(RunEntry):
+
+    #------------------------------------------------------
+    def __init__(self, main, ad, canine, uid, run):
+        self.run = run
+        super().__init__(main, ad, canine, uid)
+
+        self.addData()
+
+    #------------------------------------------------------
+    def addData(self):
+        print(self.run)
+
+        '''
+        self.date_entry
+
+
+
+
+        self.date_entry = tkc.DateEntry(self.re1, firstweekday='sunday',
+            showweeknumber=False)
+
+        # Only have AKC so far
+        self.division_selection = ['Regular', 'Preferred']
+        self.level_selection = {'Novice A': ['Standard', 'JWW', 'FAST'], 
+                                'Novice B': ['Standard', 'JWW', 'FAST'], 
+                                'Open': ['Standard', 'JWW', 'FAST'], 
+                                'Excellent': ['Standard', 'JWW', 'FAST'],
+                                'Master': ['Standard', 'JWW', 'FAST'], 
+                                'T2B': ['T2B'], 
+                                'Premier': ['Standard', 'JWW'], 
+                                'Nationals': ['Standard', 'JWW', 'National Rounds']
+                               }
+
+        self.division_entry = ttk.Combobox(self.re2, value=self.division_selection,
+            textvariable=self.division_entered, state='readonly')
+        self.level_entry = ttk.Combobox(self.re2, value=list(self.level_selection.keys()),
+            textvariable=self.level_entered, state='readonly')
+        self.event_entry = ttk.Combobox(self.re2, textvariable=self.event_entered,
+            state='readonly')
+        
+        self.height_selection = [4, 8, 12, 16, 20, 24]
+        self.judge_selection = sorted(self.AD.judges.keys())
+
+        self.height_entry = ttk.Combobox(self.re3, value=self.height_selection,
+            textvariable=self.height_entered, state='readonly')
+        self.judge_entry = ttk.Combobox(self.re3, value=self.judge_selection,
+            textvariable=self.judge_entered)
+        self.handler_entry = ttk.Entry(self.re3, textvariable=self.handler_entered)
+        self.sct_entry = ttk.Entry(self.re4, textvariable=self.sct_entered)
+        self.time_entry = ttk.Entry(self.re4, textvariable=self.time_entered)
+        self.yards_entry = ttk.Entry(self.re4, textvariable=self.yards_entered)
+        self.obst_entry = ttk.Entry(self.re4, textvariable=self.obst_entered)
+        self.faults_entry = ttk.Entry(self.re5, textvariable=self.faults_entered)
+        self.place_entry = ttk.Entry(self.re5, textvariable=self.place_entered)
+        self.place_of_entry = ttk.Entry(self.re5, textvariable=self.place_of_entered)
+        # Frame six
+        self.q_selection = ['Q', 'NQ', 'E', 'FEO', 'DNR', 'NA']
+
+        self.qd_entry = ttk.Entry(self.re6, textvariable=self.qd_entered)
+
+        self.q_entry = ttk.Combobox(self.re6, value=self.q_selection,
+            textvariable=self.q_entered, state='readonly')
+        self.min_yps = ttk.Entry(self.re7, state='disabled')
+        self.yps = ttk.Entry(self.re7, state='disabled')
+        self.notes_entry = tk.Text(self.re8, height=10)
+        '''

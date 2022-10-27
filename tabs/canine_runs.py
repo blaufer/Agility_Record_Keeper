@@ -123,7 +123,6 @@ class CanineRuns():
                             temp['Total Dogs'], temp['Qd'], temp['Notes']))
             self.canine_selected = k9
             self.trial_selected = None
-            self.run_selected = None
         # Canine and Trial Selected
         else:
             k9 = tree_item(tree_par(foc))['text']
@@ -139,14 +138,6 @@ class CanineRuns():
                         temp['Total Dogs'], temp['Qd'], temp['Notes']))
             self.canine_selected = k9
             self.trial_selected = tri
-            self.run_selected = None
-
-    #------------------------------------------------------
-    def highlightRun(self):
-        children = self.tree_runs.get_children()
-        for item in children:
-            if self.run_selected in self.tree_runs.item(item)['values']:
-                self.tree_runs.selection_set(item)
 
     #------------------------------------------------------
     def updateCanineTree(self):
@@ -164,5 +155,12 @@ class CanineRuns():
     #------------------------------------------------------
     def clearCanineTree(self):
         self.tree_canine.delete(*self.tree_canine.get_children())
+    
+    #------------------------------------------------------
+    def runSelected(self):
+        foc = self.tree_runs.focus()
+        tree_item = self.tree_runs.item
+
+        print(tree_item(foc))
 
 #----------------------------------------------------------
