@@ -270,13 +270,12 @@ class CanineRuns():
 
         # Canine Selected
         if tree_item(foc)['text'] in self.AD.canine.keys():
-            k9 = tree_item(foc)['text']
-            print(k9)
+            self.canine_selected = tree_item(foc)['text']
+            self.trial_selected = None
         # Canine and Trial Selected
         else:
-            k9 = tree_item(tree_par(foc))['text']
-            tri = foc 
-            print(k9, tri)
+            self.canine_selected = tree_item(tree_par(foc))['text']
+            self.trial_selected = foc
 
     #------------------------------------------------------
     def whichRun(self):

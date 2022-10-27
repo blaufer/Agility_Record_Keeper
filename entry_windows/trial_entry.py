@@ -12,6 +12,7 @@ class TrialEntry():
     def __init__(self, main, ad, canine):
         self.trial_entry = tk.Toplevel(main)
         self.trial_entry.transient()
+        self.trial_entry.wait_visibility()
         self.trial_entry.grab_set()
 
         self.trial_entry.title('Trial')
@@ -131,6 +132,57 @@ class TrialEntry():
         if note == '': note = None
 
         self.AD.addTrial(uid, self.canine, date, club, loc, venue, note)
+        
+        self.quit()
+
+#----------------------------------------------------------
+
+class EditTrialEntry(TrialEntry):
+
+    #------------------------------------------------------
+    def __init__(self, main, ad, canine, uid):
+        self.uid = uid
+        super().__init__(main, ad, canine)
+
+        self.addData()
+
+    #------------------------------------------------------
+    def addData(self):
+        tdata = self.AD.trials[self.uid]
+        self.date_entry.set_date(tdata['Date'])
+        self.venue_entry.current(0)
+        for num, item in enumerate(self.club_entry['values']):
+            if tdata['Club'] == item:
+                self.club_entry.current(num)
+                break
+        for num, item in enumerate(self.loc_entry['values']):
+            if tdata['Location'] == item:
+                self.club_entry.current(num)
+                break
+        self.notes_entry.insert('end', tdata['Notes'])
+    
+    #------------------------------------------------------
+    def submit(self):
+        # ADD DATA COLLECTION STUFF
+        # Grab all the entered data then exit
+        temp = self.date_entry.get_date()
+        date = f'{temp.month}/{temp.day}/{temp.year}'
+        
+        venue = self.venue_name.get()
+        if venue == '': venue = None
+        club = self.club_name.get()
+        if club == '': club = None
+        loc = self.loc_name.get()
+        if loc == '': loc == None
+        note = self.notes_entry.get('1.0', 'end-1c')
+        if note == '': note = None
+
+        self.AD.trials[self.uid] = {'Date': date,
+                                    'Club': club,
+                                    'Location': loc,
+                                    'Venue': venue,
+                                    'Note': note
+                                   }
         
         self.quit()
 

@@ -15,6 +15,7 @@ class CanineEntry():
     def __init__(self, main, ad):
         self.canine_entry = tk.Toplevel(main)
         self.canine_entry.transient()
+        self.canine_entry.wait_visibility()
         self.canine_entry.grab_set()
 
         self.canine_entry.title('Canine')
@@ -94,7 +95,7 @@ class CanineEntry():
         self.reg_label = tk.Label(self.ce2, text='Registered Name')
         self.reg_label.pack(side='left')
         self.reg = ttk.Entry(self.ce2, textvariable=self.reg_name_entry)
-        self.reg.pack(fill='x')
+        self.reg.pack(side='left')
 
         # Frame three
         self.ce3 = ttk.Frame(self.properties)
@@ -134,7 +135,10 @@ class CanineEntry():
         col_names = ['Venue', 'Title', 'Date']
         for num, item in enumerate(col_names):
             self.titles_tree.heading(columns[num], text=item)
-
+        self.titles_tree.column('1', width=Font().measure(col_names[0]),
+            stretch='no')
+        
+        '''
         for num, item in enumerate(col_names):
             mwidth = Font().measure(item)
             if num == len(col_names) - 1:
@@ -145,6 +149,7 @@ class CanineEntry():
                     stretch='no', anchor='w')
             self.titles_tree.heading(columns[num], text=item,
                 anchor='w')
+        '''
 
         # Add Buttons
         self.new_title = ttk.Button(self.titles, text='New',
@@ -179,7 +184,7 @@ class CanineEntry():
 
         # MAY NEED OTHER COLUMNS
         col_names = ['Venue', 'Number', 'Height', 'Received', 'Note']
-
+        
         for num, item in enumerate(col_names):
             mwidth = Font().measure(item)
             if num == len(col_names) - 1:

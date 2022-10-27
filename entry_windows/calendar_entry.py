@@ -10,6 +10,7 @@ class CalendarEntry():
     def __init__(self, main):
         self.calendar_entry = tk.Toplevel(main)
         self.calendar_entry.transient()
+        self.calendar_entry.wait_visibility()
         self.calendar_entry.grab_set()
 
         self.calendar_entry.title('Calendar')

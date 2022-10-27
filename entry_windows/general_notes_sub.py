@@ -8,6 +8,7 @@ class GeneralNotesSub():
     def __init__(self, main, ad, title, name=None, notes=None):
         self.entry = tk.Toplevel(main)
         self.entry.transient()
+        self.entry.wait_visibility()
         self.entry.grab_set()
         self.title = title
         self.entry.title(self.title)

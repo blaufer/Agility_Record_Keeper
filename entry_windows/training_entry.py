@@ -9,6 +9,7 @@ class TrainingEntry():
     def __init__(self, main):
         self.training_entry = tk.Toplevel(main)
         self.training_entry.transient()
+        self.training_entry.wait_visibility()
         self.training_entry.grab_set()
 
         self.training_entry.title('Training')

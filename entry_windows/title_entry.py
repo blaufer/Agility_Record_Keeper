@@ -10,6 +10,7 @@ class TitleEntry():
     def __init__(self, main):
         self.titles_entry = tk.Toplevel(main)
         self.titles_entry.transient()
+        self.titles_entry.wait_visibility()
         self.titles_entry.grab_set()
         self.titles_entry.title('Title')
 

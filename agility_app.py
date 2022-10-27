@@ -12,8 +12,7 @@ from tabs.calendar_tab import CalendarTab
 from tabs.training_tab import TrainingTab
 
 from entry_windows.canine_entry import CanineEntry, EditCanineEntry
-#from entry_windows.title_reg import Titles
-from entry_windows.trial_entry import TrialEntry
+from entry_windows.trial_entry import TrialEntry, EditTrialEntry
 from entry_windows.run_entry import RunEntry
 from entry_windows.calendar_entry import CalendarEntry
 from entry_windows.training_entry import TrainingEntry
@@ -358,7 +357,17 @@ class AgilityApp(tk.Tk):
 
     #------------------------------------------------------
     def doubleClickCanineTrial(self, event):
-        self.canine_runs.canineOrTrial()
+        #self.canine_runs.canineOrTrial()
+        print(self.canine_runs.canine_selected, self.canine_runs.trial_selected)
+        if self.canine_runs.trial_selected is not None:
+            te = EditTrialEntry(self, self.AD, self.canine_runs.canine_selected, \
+                self.canine_runs.trial_selected)
+            te.trial_entry.wait_window(te.trial_entry)
+            self.canine_runs.updateCanineTree()
+        else:
+            ce = EditCanineEntry(self, self.AD, self.canine_runs.canine_selected)
+            ce.notebook.select(ce.reg_nums)
+            ce.canine_entry.wait_window(ce.canine_entry)
     
     #------------------------------------------------------
     def doubleClickRun(self, event):

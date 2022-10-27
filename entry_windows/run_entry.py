@@ -10,6 +10,7 @@ class RunEntry():
     def __init__(self, main, ad, canine, uid):
         self.run_entry = tk.Toplevel(main)
         self.run_entry.transient()
+        self.run_entry.wait_visibility()
         self.run_entry.grab_set()
 
         self.run_entry.title('Title')

@@ -9,6 +9,7 @@ class RegEntry():
     def __init__(self, main):
         self.reg_entry = tk.Toplevel(main)
         self.reg_entry.transient()
+        self.reg_entry.wait_visibility()
         self.reg_entry.grab_set()
         self.reg_entry.title('Title')
 
