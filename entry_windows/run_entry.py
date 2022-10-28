@@ -7,7 +7,7 @@ import tkcalendar as tkc
 class RunEntry():
 
     #------------------------------------------------------
-    def __init__(self, main, ad, canine, uid):
+    def __init__(self, main, ad, canine, tuid):
         self.run_entry = tk.Toplevel(main)
         self.run_entry.transient()
         self.run_entry.wait_visibility()
@@ -18,8 +18,8 @@ class RunEntry():
 
         self.AD = ad
         self.canine = canine
-        self.uid = uid
-        self.date = self.AD.trials[uid]['Date']
+        self.tuid = tuid
+        self.date = self.AD.trials[tuid]['Date']
 
         # Variables
         self.division_entered = tk.StringVar()
@@ -90,7 +90,7 @@ class RunEntry():
 
         self.trial_entry = ttk.Entry(self.re1)
         self.trial_entry.insert('end',
-            f"[{self.AD.trials[self.uid]['Venue']}] {self.AD.trials[self.uid]['Club']}")
+            f"[{self.AD.trials[self.tuid]['Venue']}] {self.AD.trials[self.tuid]['Club']}")
         self.trial_entry.config(state='disabled')
         self.trial_entry.pack(side='left')
 
@@ -260,6 +260,7 @@ class RunEntry():
     #------------------------------------------------------
     def submit(self):
         # ADD COLLECTION DATA STUFF
+        ruid = self.AD.uniqueRunID(self.canine, self.tuid)
         # Grab all the entered data then exit
         self.date = self.date_entry.get_date()
         self.date = f'{self.date.month}/{self.date.day}/{self.date.year}'
@@ -284,10 +285,11 @@ class RunEntry():
         self.tpoints = None
         self.score = None
 
-        self.AD.addRun(self.canine, self.uid, self.date, self.event, self.division,
-            self.level, self.height, self.judge, self.handler, self.sct, self.yards,
-            self.obst, self.time, self.faults, self.place, self.place_of, self.qd,
-            self.q, self.tpoints, self.score, self.note)
+        self.AD.addRun(self.canine, self.tuid, ruid, self.date, self.event,
+            self.division, self.level, self.height, self.judge, self.handler,
+            self.sct, self.yards, self.obst, self.time, self.faults,
+            self.place, self.place_of, self.qd, self.q, self.tpoints,
+            self.score, self.note)
 
         self.quit()
 
@@ -296,9 +298,9 @@ class RunEntry():
 class EditRunEntry(RunEntry):
 
     #------------------------------------------------------
-    def __init__(self, main, ad, canine, uid, run):
+    def __init__(self, main, ad, canine, tuid, run):
         self.run = run
-        super().__init__(main, ad, canine, uid)
+        super().__init__(main, ad, canine, tuid)
 
         self.addData()
 

@@ -370,7 +370,6 @@ class AgilityApp(tk.Tk):
             self.canine_runs.updateCanineTree()
         else:
             ce = EditCanineEntry(self, self.AD, self.canine_runs.canine_selected)
-            ce.notebook.select(ce.reg_nums)
             ce.canine_entry.wait_window(ce.canine_entry)
     
     #------------------------------------------------------

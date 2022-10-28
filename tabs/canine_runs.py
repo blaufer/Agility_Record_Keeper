@@ -111,16 +111,17 @@ class CanineRuns():
         if tree_item(foc)['text'] in self.AD.canine.keys():
             k9 = tree_item(foc)['text']
             # Loop through trials for the selected canine
+            # k is the tuid, v is the dictionary
             for k, v in self.AD.canine[k9]['Trials'].items():
                 # Loop through runs
+                # r is run data
                 for r in v.values():
-                    for k1, temp in r.items():
-                        self.tree_runs.insert('', 'end', tags=(k),
-                            values=(temp['Q?'], temp['Title Pts'], temp['Score'],
-                            temp['Date'], self.AD.trials[k]['Venue'], k1,
-                            temp['Division'], temp['Level'], temp['Height'],
-                            temp['Judge'], temp['Time'], temp['Place'],
-                            temp['Total Dogs'], temp['Qd'], temp['Notes']))
+                    self.tree_runs.insert('', 'end', tags=(k),
+                        values=(r['Q?'], r['Title Pts'], r['Score'],
+                        r['Date'], self.AD.trials[k]['Venue'], r['Event'],
+                        r['Division'], r['Level'], r['Height'],
+                        r['Judge'], r['Time'], r['Place'],
+                        r['Total Dogs'], r['Qd'], r['Notes']))
             self.canine_selected = k9
             self.trial_selected = None
         # Canine and Trial Selected
@@ -128,14 +129,13 @@ class CanineRuns():
             k9 = tree_item(tree_par(foc))['text']
             tri = foc 
             # Loop through runs
-            for r in self.AD.canine[k9]['Trials'][tri].values():
-                for k1, temp in r.items():
-                    self.tree_runs.insert('', 'end', tags=(tri), 
-                        values=(temp['Q?'], temp['Title Pts'], temp['Score'],
-                        temp['Date'], self.AD.trials[tri]['Venue'], k1,
-                        temp['Division'], temp['Level'], temp['Height'],
-                        temp['Judge'], temp['Time'], temp['Place'],
-                        temp['Total Dogs'], temp['Qd'], temp['Notes']))
+            for k, r in self.AD.canine[k9]['Trials'][tri].items():
+                self.tree_runs.insert('', 'end', tags=(k), 
+                    values=(r['Q?'], r['Title Pts'], r['Score'],
+                    r['Date'], self.AD.trials[tri]['Venue'], r['Event'],
+                    r['Division'], r['Level'], r['Height'],
+                    r['Judge'], r['Time'], r['Place'],
+                    r['Total Dogs'], r['Qd'], r['Notes']))
             self.canine_selected = k9
             self.trial_selected = tri
 

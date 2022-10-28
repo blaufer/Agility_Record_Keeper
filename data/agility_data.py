@@ -86,52 +86,53 @@ class AgilityData():
         if notes != None:
             self.trials[uid]['Notes'] = notes
 
-        self.canine[name]['Trials'][uid] = {'Runs': {}}
+        self.canine[name]['Trials'][uid] = {}
 
     #------------------------------------------------------
-    def addRun(self, name, uid, date, event, division=None, level=None, height=None, judge=None, 
-        handler=None, sct=None, yards=None, obstacles=None, time=None, faults=None,
+    def addRun(self, name, tuid, ruid, date, event, division=None, level=None, height=None,
+        judge=None, handler=None, sct=None, yards=None, obstacles=None, time=None, faults=None,
         place=None, tdogs=None, qd=None, q=None, tpoints=None, score=None, notes=None):
         
         # Add a run to given canine and trial
-        if event not in self.canine[name]['Trials'][uid]['Runs']:
-            self.canine[name]['Trials'][uid]['Runs'][event] = self.run_entry
-        self.canine[name]['Trials'][uid]['Runs'][event]['Date'] = date
-        if division != None:
-            self.canine[name]['Trials'][uid]['Runs'][event]['Division'] = division
-        if level != None:
-            self.canine[name]['Trials'][uid]['Runs'][event]['Level'] = level
-        if height != None:
-            self.canine[name]['Trials'][uid]['Runs'][event]['Height'] = height
-        if judge != None:
-            self.canine[name]['Trials'][uid]['Runs'][event]['Judge'] = judge
+        if ruid not in self.canine[name]['Trials'][tuid].keys():
+            self.canine[name]['Trials'][tuid][ruid] = self.run_entry
+        self.canine[name]['Trials'][tuid][ruid]['Event'] = event
+        self.canine[name]['Trials'][tuid][ruid]['Date'] = date
+        if division is not None:
+            self.canine[name]['Trials'][tuid][ruid]['Division'] = division
+        if level is not None:
+            self.canine[name]['Trials'][tuid][ruid]['Level'] = level
+        if height is not None:
+            self.canine[name]['Trials'][tuid][ruid]['Height'] = height
+        if judge is not None:
+            self.canine[name]['Trials'][tuid][ruid]['Judge'] = judge
             self.addJudge(judge)
-        if handler != None:
-            self.canine[name]['Trials'][uid]['Runs'][event]['Handler'] = handler
-        if sct != None:
-            self.canine[name]['Trials'][uid]['Runs'][event]['SCT'] = sct
-        if yards != None:
-            self.canine[name]['Trials'][uid]['Runs'][event]['Yards'] = yards
-        if obstacles != None:
-            self.canine[name]['Trials'][uid]['Runs'][event]['Obstacles'] = obstacles
-        if time != None:
-            self.canine[name]['Trials'][uid]['Runs'][event]['Time'] = time
-        if faults != None:
-            self.canine[name]['Trials'][uid]['Runs'][event]['Faults'] = faults
-        if place != None:
-            self.canine[name]['Trials'][uid]['Runs'][event]['Place'] = place
-        if tdogs != None:
-            self.canine[name]['Trials'][uid]['Runs'][event]['Total Dogs'] = tdogs
-        if qd != None:
-            self.canine[name]['Trials'][uid]['Runs'][event]['Qd'] = qd
-        if q != None:
-            self.canine[name]['Trials'][uid]['Runs'][event]['Q?'] = q
-        if tpoints != None:
-            self.canine[name]['Trials'][uid]['Runs'][event]['Title Pts'] = tpoints
-        if score != None:
-            self.canine[name]['Trials'][uid]['Runs'][event]['Score'] = score
-        if notes != None:
-            self.canine[name]['Trials'][uid]['Runs'][event]['Notes'] = notes
+        if handler is not None:
+            self.canine[name]['Trials'][tuid][ruid]['Handler'] = handler
+        if sct is not None:
+            self.canine[name]['Trials'][tuid][ruid]['SCT'] = sct
+        if yards is not None:
+            self.canine[name]['Trials'][tuid][ruid]['Yards'] = yards
+        if obstacles is not None:
+            self.canine[name]['Trials'][tuid][ruid]['Obstacles'] = obstacles
+        if time is not None:
+            self.canine[name]['Trials'][tuid][ruid]['Time'] = time
+        if faults is not None:
+            self.canine[name]['Trials'][tuid][ruid]['Faults'] = faults
+        if place is not None:
+            self.canine[name]['Trials'][tuid][ruid]['Place'] = place
+        if tdogs is not None:
+            self.canine[name]['Trials'][tuid][ruid]['Total Dogs'] = tdogs
+        if qd is not None:
+            self.canine[name]['Trials'][tuid][ruid]['Qd'] = qd
+        if q is not None:
+            self.canine[name]['Trials'][tuid][ruid]['Q?'] = q
+        if tpoints is not None:
+            self.canine[name]['Trials'][tuid][ruid]['Title Pts'] = tpoints
+        if score is not None:
+            self.canine[name]['Trials'][tuid][ruid]['Score'] = score
+        if notes is not None:
+            self.canine[name]['Trials'][tuid][ruid]['Notes'] = notes
 
     #------------------------------------------------------
     def addCalendar(self, sdate, club, edate=None, odate=None, cdate=None,
@@ -295,7 +296,8 @@ class AgilityData():
                             'Venue': '',
                             'Notes': ''
                            }
-        self.run_entry = {'Division': '', # Event will be the key within self.canine[name]['Trials'][uid]
+        self.run_entry = {'Event': '',
+                          'Division': '',
                           'Date': '',
                           'Level': '',
                           'Height': '',
@@ -336,6 +338,15 @@ class AgilityData():
         while True:
             uid = str(uuid4())
             if uid not in self.trials.keys():
+                break
+        
+        return uid
+
+    #------------------------------------------------------
+    def uniqueRunID(self, canine, tuid):
+        while True:
+            uid = str(uuid4())
+            if uid not in self.canine[canine]['Trials'][tuid].keys():
                 break
         
         return uid
