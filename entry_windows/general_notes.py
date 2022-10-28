@@ -17,6 +17,7 @@ class GeneralNotes():
         self.entry.grab_set()
         self.title = title
         self.entry.title(self.title)
+        self.entry.geometry('475x245')
 
         self.AD = ad
 

@@ -12,6 +12,7 @@ class GeneralNotesSub():
         self.entry.grab_set()
         self.title = title
         self.entry.title(self.title)
+        self.entry.geometry('375x185')
 
         #self.title = title
         self.name = name
