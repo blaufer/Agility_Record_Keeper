@@ -374,10 +374,11 @@ class AgilityApp(tk.Tk):
     
     #------------------------------------------------------
     def doubleClickRun(self, event):
+        self.canine_runs.runSelected()
         re = EditRunEntry(self, self.AD, self.canine_runs.canine_selected,
             self.canine_runs.trial_selected, self.canine_runs.run_selected)
         re.run_entry.wait_window(re.run_entry)
-        self.canine_runs.runCanineData(None)
+        self.canine_runs.runCanineData(event)
         
 #----------------------------------------------------------
 

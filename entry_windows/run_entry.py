@@ -298,21 +298,21 @@ class RunEntry():
 class EditRunEntry(RunEntry):
 
     #------------------------------------------------------
-    def __init__(self, main, ad, canine, tuid, run):
-        self.run = run
+    def __init__(self, main, ad, canine, tuid, ruid):
+        self.ruid = ruid
+        #print(tuid, ruid)
         super().__init__(main, ad, canine, tuid)
 
         self.addData()
 
     #------------------------------------------------------
     def addData(self):
-        print(self.run)
+        pass#print(self.AD.canine[self.canine]['Trials'][self.tuid])
+        #rdata = self.AD.canine[self.canine]['Trials'][self.tuid][self.ruid]
+        #print(rdata)
 
         '''
         self.date_entry
-
-
-
 
         self.date_entry = tkc.DateEntry(self.re1, firstweekday='sunday',
             showweeknumber=False)

@@ -115,8 +115,8 @@ class CanineRuns():
             for k, v in self.AD.canine[k9]['Trials'].items():
                 # Loop through runs
                 # r is run data
-                for r in v.values():
-                    self.tree_runs.insert('', 'end', tags=(k),
+                for k1, r in v.items():
+                    self.tree_runs.insert('', 'end', tags=(k1, k),
                         values=(r['Q?'], r['Title Pts'], r['Score'],
                         r['Date'], self.AD.trials[k]['Venue'], r['Event'],
                         r['Division'], r['Level'], r['Height'],
@@ -130,7 +130,7 @@ class CanineRuns():
             tri = foc 
             # Loop through runs
             for k, r in self.AD.canine[k9]['Trials'][tri].items():
-                self.tree_runs.insert('', 'end', tags=(k), 
+                self.tree_runs.insert('', 'end', tags=(k, tri),
                     values=(r['Q?'], r['Title Pts'], r['Score'],
                     r['Date'], self.AD.trials[tri]['Venue'], r['Event'],
                     r['Division'], r['Level'], r['Height'],
@@ -160,7 +160,7 @@ class CanineRuns():
     def runSelected(self):
         foc = self.tree_runs.focus()
         tree_item = self.tree_runs.item
-
-        print(tree_item(foc))
+        self.run_selected = tree_item(foc)['tags'][0]
+        self.trial_selected = tree_item(foc)['tags'][1]
 
 #----------------------------------------------------------
