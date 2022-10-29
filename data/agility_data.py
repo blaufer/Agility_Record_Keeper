@@ -141,7 +141,8 @@ class AgilityData():
 
         # Add a calendar entry, start date and club are necessary
         k = f'{sdate} {club}'
-        self.calendar[k] = self.calendar_entry
+        if k not in self.calendar.keys():
+            self.calendar[k] = self.calendar_entry
 
         self.calendar[k]['SDate'] = sdate
         self.calendar[k]['Club'] = club

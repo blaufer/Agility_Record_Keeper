@@ -42,7 +42,7 @@ class CalendarEntry():
         self.ce3 = ttk.Frame(self.calendar_entry)
         self.ce3.pack(side='top', fill='x')
 
-        self.ce4 = ttk.Frame(self.calendar_entry, borderwidth=1, relief='solid')
+        self.ce4 = ttk.Frame(self.calendar_entry)
         self.ce4.pack(side='top', fill='x')
 
         self.ce5 = ttk.Frame(self.calendar_entry)
@@ -102,18 +102,15 @@ class CalendarEntry():
         self.close_entry.pack(side='left')
 
         # Frame four
-        self.entry_values = {'Not Currently': 'NC',
-                             'Planning': 'P',
-                             'Entered (Pending)': 'EP',
-                             'Entered (Confirmed)': 'EC'
-                            }
+        self.entry_values = ['Not Currently','Planning', 'Entered (Pending)',
+            'Entered (Confirmed)']
 
         self.entry_label = tk.Label(self.ce4, text='Entry')
-        self.entry_label.pack(side='top', anchor='nw', padx=30)
-        for k, v in self.entry_values.items():
-            ttk.Radiobutton(self.ce4, text=k, value=v, 
-                variable=self.entry_entered).pack(side='top', anchor='nw', padx=60)
-
+        self.entry_label.pack(side='left')
+        self.entry_box = ttk.Combobox(self.ce4, values=self.entry_values,
+            textvariable=self.entry_entered, state='readonly')
+        self.entry_box.pack(side='left')
+        
         # Frame five
         self.venues = ['AKC']
         self.locs = ['Purina Farms']
@@ -199,4 +196,39 @@ class EditCalendarEntry(CalendarEntry):
 
     #------------------------------------------------------
     def __init__(self, main, ad, key):
-        pass
+        self.key = key
+        super().__init__(main, ad)
+
+        self.addData()
+
+    #------------------------------------------------------
+    def addData(self):
+        cdata = self.AD.calendar[self.key]
+        
+        self.start_entry.set_date(cdata['SDate'])
+        self.open_entry.set_date(cdata['ODate'])
+        self.end_entry.set_date(cdata['EDate'])
+        self.draw_entry.set_date(cdata['DDate'])
+        if cdata['Tentative'] == 1:
+            self.tent_label.select()
+        self.close_entry.set_data(cdata['CDate'])
+        for num, item in enumerate(self.entry_box['values']):
+            if cdata['Entry'] == item:
+                self.entry_box.current(num)
+                break
+        for num, item in enumerate(self.venue_entry['values']):
+            if cdata['Venue'] == item:
+                self.venue_entry.current(num)
+                break
+        for num, item in enumerate(self.loc_entry['values']):
+            if cdata['Location'] == item:
+                self.loc_entry.current(num)
+                break
+        for num, item in enumerate(self.club_entry['values']):
+            if cdata['Club'] == item:
+                self.vlub_entry.current(num)
+                break        
+        self.sec_entry.insert('end', cdata['SecEmail'])
+        self.notes_entry.insert('end', cdata['Notes'])
+
+#----------------------------------------------------------
