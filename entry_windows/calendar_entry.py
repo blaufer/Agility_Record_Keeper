@@ -7,17 +7,18 @@ import tkcalendar as tkc
 class CalendarEntry():
 
     #------------------------------------------------------
-    def __init__(self, main):
+    def __init__(self, main, ad):
         self.calendar_entry = tk.Toplevel(main)
         self.calendar_entry.transient()
         self.calendar_entry.wait_visibility()
         self.calendar_entry.grab_set()
 
         self.calendar_entry.title('Calendar')
+        
+        self.AD = ad
 
         # Variables
         self.tent_entered = tk.IntVar()
-        self.close_entered = tk.StringVar()
         self.entry_entered = tk.StringVar()
         self.venue_entered = tk.StringVar()
         self.loc_entered = tk.StringVar()
@@ -169,11 +170,16 @@ class CalendarEntry():
         # ADD DATA COLLECTION STUFF
         # Grab all the entered data then exit
         self.start = self.start_entry.get_date()
+        self.start = f'{self.start.month}/{self.start.day}/{self.start.year}'
         self.open = self.open_entry.get_date()
+        self.open = f'{self.open.month}/{self.open.day}/{self.open.year}'
         self.end = self.end_entry.get_date()
+        self.end = f'{self.end.month}/{self.end.day}/{self.end.year}'
         self.draw = self.draw_entry.get_date()
+        self.draw = f'{self.draw.month}/{self.draw.day}/{self.draw.year}'
         self.tent = self.tent_entered.get()
-        self.close = self.close_entered.get()
+        self.close = self.close_entry.get_date()
+        self.close = f'{self.close.month}/{self.close.day}/{self.close.year}'
         self.entry = self.entry_entered.get()
         self.venue = self.venue_entered.get()
         self.loc = self.loc_entered.get()
@@ -181,6 +187,16 @@ class CalendarEntry():
         self.sec_email = self.sec_email_entered.get()
         self.note = self.notes_entry.get('1.0', 'end-1c')
 
+        self.AD.addCalendar(self.start, self.club, self.end, self.open,
+            self.end, self.draw, self.tent, self.entry, self.sec_email,
+            self.venue, self.loc, self.note)
+
         self.quit()
 
 #----------------------------------------------------------
+
+class EditCalendarEntry(CalendarEntry):
+
+    #------------------------------------------------------
+    def __init__(self, main, ad, key):
+        pass

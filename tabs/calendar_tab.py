@@ -32,6 +32,8 @@ class CalendarTab():
 
         self.calendar_pane.pack(fill='both', expand=1)
 
+        self.calendarListData()
+
     #------------------------------------------------------
     def calendarList(self):
         # Setup the left side which is the list of entered or
@@ -62,16 +64,18 @@ class CalendarTab():
     #------------------------------------------------------
     def calendarListData(self):
         # Add data to the left tree
-        for v in self.AD.calendar.values():
+        self.calendar_list.delete(*self.calendar_list.get_children())
+        for k, v in self.AD.calendar.items():
             temp = {}
             for k1, v1 in v.items():
                 if v1 == None:
                     temp[k1] = ''
                 else:
                     temp[k1] = v1
-            self.calendar_list.insert('', 'end', values=(temp['SDate'],
-                temp['EDate'], temp['Venue'], temp['Club'], temp['Location'],
-                temp['ODate'], temp['CDate'], temp['DDate'], temp['Notes']))
+            self.calendar_list.insert('', 'end', tags=(k), 
+                values=(temp['SDate'], temp['EDate'], temp['Venue'],
+                temp['Club'], temp['Location'], temp['ODate'], 
+                temp['CDate'], temp['DDate'], temp['Notes']))
 
     #------------------------------------------------------
     def Calendar(self):

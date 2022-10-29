@@ -311,7 +311,9 @@ class AgilityApp(tk.Tk):
     #------------------------------------------------------
     def addCalendar(self):
         # Opens the calendar entry form
-        CalendarEntry(self)
+        ce = CalendarEntry(self, self.AD)
+        ce.calendar_entry.wait_window(ce.calendar_entry)
+        print(self.AD.calendar)
 
     #------------------------------------------------------
     def addTraining(self):
