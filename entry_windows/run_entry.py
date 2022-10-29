@@ -307,58 +307,74 @@ class EditRunEntry(RunEntry):
 
     #------------------------------------------------------
     def addData(self):
-        pass#print(self.AD.canine[self.canine]['Trials'][self.tuid])
-        #rdata = self.AD.canine[self.canine]['Trials'][self.tuid][self.ruid]
-        #print(rdata)
+        rdata = self.AD.canine[self.canine]['Trials'][self.tuid][self.ruid]
 
-        '''
-        self.date_entry
+        self.date_entry.set_date(rdata['Date'])
+        for num, item in enumerate(self.division_entry['values']):
+            if rdata['Division'] == item:
+                self.division_entry.current(num)
+                break
+        for num, item in enumerate(self.level_entry['values']):
+            if rdata['Level'] == item:
+                self.level_entry.current(num)
+                break
+        for num, item in enumerate(self.height_entry['values']):
+            if rdata['Height'] == item:
+                self.height_entry.current(num)
+                break
+        for num, item in enumerate(self.judge_entry['values']):
+            if rdata['Judge'] == item:
+                self.judge_entry.current(num)
+                break
+        self.handler_entry.insert('end', rdata['Handler'])
+        self.sct_entry.insert('end', rdata['SCT'])
+        self.time_entry.insert('end', rdata['Time'])
+        self.yards_entry.insert('end', rdata['Yards'])
+        self.obst_entry.insert('end', rdata['Obstacles'])
+        self.faults_entry.insert('end', rdata['Faults'])
+        self.place_entry.insert('end', rdata['Place'])
+        self.place_of_entry.insert('end', rdata['Total Dogs'])
+        self.qd_entry.insert('end', rdata['Qd'])
+        for num, item in enumerate(self.q_entry['values']):
+            if rdata['Q?'] == item:
+                self.q_entry.current(num)
+                break
+        self.notes_entry.insert('end', rdata['Notes'])
+    
+    #------------------------------------------------------
+    def submit(self):
+        # ADD COLLECTION DATA STUFF
+        # Grab all the entered data then exit
+        self.date = self.date_entry.get_date()
+        self.date = f'{self.date.month}/{self.date.day}/{self.date.year}'
+        self.division = self.division_entered.get()
+        self.level = self.level_entered.get()
+        self.event = self.event_entered.get()
+        self.height = self.height_entered.get()
+        self.judge = self.judge_entered.get()
+        self.handler = self.handler_entered.get()
+        self.sct = self.sct_entered.get()
+        self.time = self.time_entered.get()
+        self.yards = self.yards_entered.get()
+        self.obst = self.obst_entered.get()
+        self.faults = self.faults_entered.get()
+        self.place = self.place_entered.get()
+        self.place_of = self.place_of_entered.get()
+        self.qd = self.qd_entered.get()
+        self.q = self.q_entered.get()
+        self.note = self.notes_entry.get('1.0', 'end-1c')
 
-        self.date_entry = tkc.DateEntry(self.re1, firstweekday='sunday',
-            showweeknumber=False)
+        # Needs to be calculated
+        self.tpoints = None
+        self.score = None
 
-        # Only have AKC so far
-        self.division_selection = ['Regular', 'Preferred']
-        self.level_selection = {'Novice A': ['Standard', 'JWW', 'FAST'], 
-                                'Novice B': ['Standard', 'JWW', 'FAST'], 
-                                'Open': ['Standard', 'JWW', 'FAST'], 
-                                'Excellent': ['Standard', 'JWW', 'FAST'],
-                                'Master': ['Standard', 'JWW', 'FAST'], 
-                                'T2B': ['T2B'], 
-                                'Premier': ['Standard', 'JWW'], 
-                                'Nationals': ['Standard', 'JWW', 'National Rounds']
-                               }
+        self.AD.addRun(self.canine, self.tuid, self.ruid, self.date, self.event,
+            self.division, self.level, self.height, self.judge, self.handler,
+            self.sct, self.yards, self.obst, self.time, self.faults,
+            self.place, self.place_of, self.qd, self.q, self.tpoints,
+            self.score, self.note)
 
-        self.division_entry = ttk.Combobox(self.re2, value=self.division_selection,
-            textvariable=self.division_entered, state='readonly')
-        self.level_entry = ttk.Combobox(self.re2, value=list(self.level_selection.keys()),
-            textvariable=self.level_entered, state='readonly')
-        self.event_entry = ttk.Combobox(self.re2, textvariable=self.event_entered,
-            state='readonly')
-        
-        self.height_selection = [4, 8, 12, 16, 20, 24]
-        self.judge_selection = sorted(self.AD.judges.keys())
+        self.quit()
 
-        self.height_entry = ttk.Combobox(self.re3, value=self.height_selection,
-            textvariable=self.height_entered, state='readonly')
-        self.judge_entry = ttk.Combobox(self.re3, value=self.judge_selection,
-            textvariable=self.judge_entered)
-        self.handler_entry = ttk.Entry(self.re3, textvariable=self.handler_entered)
-        self.sct_entry = ttk.Entry(self.re4, textvariable=self.sct_entered)
-        self.time_entry = ttk.Entry(self.re4, textvariable=self.time_entered)
-        self.yards_entry = ttk.Entry(self.re4, textvariable=self.yards_entered)
-        self.obst_entry = ttk.Entry(self.re4, textvariable=self.obst_entered)
-        self.faults_entry = ttk.Entry(self.re5, textvariable=self.faults_entered)
-        self.place_entry = ttk.Entry(self.re5, textvariable=self.place_entered)
-        self.place_of_entry = ttk.Entry(self.re5, textvariable=self.place_of_entered)
-        # Frame six
-        self.q_selection = ['Q', 'NQ', 'E', 'FEO', 'DNR', 'NA']
 
-        self.qd_entry = ttk.Entry(self.re6, textvariable=self.qd_entered)
-
-        self.q_entry = ttk.Combobox(self.re6, value=self.q_selection,
-            textvariable=self.q_entered, state='readonly')
-        self.min_yps = ttk.Entry(self.re7, state='disabled')
-        self.yps = ttk.Entry(self.re7, state='disabled')
-        self.notes_entry = tk.Text(self.re8, height=10)
-        '''
+#----------------------------------------------------------
