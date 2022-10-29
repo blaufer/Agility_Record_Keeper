@@ -113,7 +113,7 @@ class CalendarEntry():
         
         # Frame five
         self.venues = ['AKC']
-        self.locs = ['Purina Farms']
+        self.locs = sorted(self.AD.locations.keys())
         
         self.venue_label = tk.Label(self.ce5, text='Venue')
         self.venue_label.pack(side='left')
@@ -128,7 +128,7 @@ class CalendarEntry():
         self.loc_entry.pack(side='left')
 
         # Frame six
-        self.clubs = ['GSDCA']
+        self.clubs = sorted(self.AD.clubs.keys())
         
         self.club_label = tk.Label(self.ce6, text='Club')
         self.club_label.pack(side='left')
