@@ -12,12 +12,13 @@ class RegEntry():
         self.reg_entry.wait_visibility()
         self.reg_entry.grab_set()
         self.reg_entry.title('Title')
+        self.reg_entry.geometry('260x100')
 
         # Variable
         self.venue_entered = tk.StringVar()
         self.regnum_entered = tk.StringVar()
         self.height_entered = tk.StringVar()
-        self.card_received_entered = tk.StringVar()
+        self.card_received_entered = tk.BooleanVar()
         self.reg_info = None
 
         # Setup
@@ -116,7 +117,7 @@ class EditRegEntry(RegEntry):
         self.venue_entry.current(0)
         self.regnum_entry.insert('end', self.reg_info[1])
         self.height_entry.insert('end', self.reg_info[2])
-        if self.reg_info == 1:
-            self.recieved.select()
+        if self.reg_info[3] == 'True':
+            self.card_received_entered.set(True)
 
 #----------------------------------------------------------

@@ -246,7 +246,6 @@ class CanineEntry():
         if reg_name == '': reg_name = None
         deceased = self.deceased_entry.get()
         note = self.notes.get('1.0', 'end-1c')
-        if note == '': note = None
         temp = self.birthday_entry.get_date()
         birthday = f'{temp.month}/{temp.day}/{temp.year}'
         
@@ -370,7 +369,6 @@ class EditCanineEntry(CanineEntry):
         if reg_name == '': reg_name = None
         deceased = self.deceased_entry.get()
         note = self.notes.get('1.0', 'end-1c')
-        if note == '': note = None
         temp = self.birthday_entry.get_date()
         birthday = f'{temp.month}/{temp.day}/{temp.year}'
         
