@@ -211,7 +211,7 @@ class EditCalendarEntry(CalendarEntry):
         self.draw_entry.set_date(cdata['DDate'])
         if cdata['Tentative'] == 1:
             self.tent_label.select()
-        self.close_entry.set_data(cdata['CDate'])
+        self.close_entry.set_date(cdata['CDate'])
         for num, item in enumerate(self.entry_box['values']):
             if cdata['Entry'] == item:
                 self.entry_box.current(num)
@@ -226,7 +226,7 @@ class EditCalendarEntry(CalendarEntry):
                 break
         for num, item in enumerate(self.club_entry['values']):
             if cdata['Club'] == item:
-                self.vlub_entry.current(num)
+                self.club_entry.current(num)
                 break        
         self.sec_entry.insert('end', cdata['SecEmail'])
         self.notes_entry.insert('end', cdata['Notes'])

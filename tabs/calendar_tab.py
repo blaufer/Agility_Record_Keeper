@@ -72,10 +72,14 @@ class CalendarTab():
                     temp[k1] = ''
                 else:
                     temp[k1] = v1
-            self.calendar_list.insert('', 'end', tags=(k), 
+            self.calendar_list.insert('', 'end', iid=k, 
                 values=(temp['SDate'], temp['EDate'], temp['Venue'],
                 temp['Club'], temp['Location'], temp['ODate'], 
                 temp['CDate'], temp['DDate'], temp['Notes']))
+
+    #------------------------------------------------------
+    def calendarItemSelected(self):
+        self.calendar_item = self.calendar_list.selection()[0]
 
     #------------------------------------------------------
     def Calendar(self):

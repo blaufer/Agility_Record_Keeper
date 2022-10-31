@@ -14,7 +14,7 @@ from tabs.training_tab import TrainingTab
 from entry_windows.canine_entry import CanineEntry, EditCanineEntry
 from entry_windows.trial_entry import TrialEntry, EditTrialEntry
 from entry_windows.run_entry import RunEntry, EditRunEntry
-from entry_windows.calendar_entry import CalendarEntry
+from entry_windows.calendar_entry import CalendarEntry, EditCalendarEntry
 from entry_windows.training_entry import TrainingEntry
 from entry_windows.general_notes \
     import GeneralNotes, ClubNotes, JudgeNotes, LocNotes
@@ -75,15 +75,18 @@ class AgilityApp(tk.Tk):
         self.training_tab.trainingTab()
 
         # Bindings
+        self.protocol('WM_DELETE_WINDOW', self.quit) # Saves settings when X is clicked on
+        
         self.canine_runs.tree_canine.bind('<ButtonRelease-1>',
             self.canineTreeBind)
         self.canine_runs.tree_runs.bind('<ButtonRelease-1>',
             self.canineTreeRunBind)
-        self.protocol('WM_DELETE_WINDOW', self.quit) # Saves settings when X is clicked on
         # Left Tree
         self.canine_runs.tree_canine.bind('<Double-Button-1>', self.doubleClickCanineTrial)
         # Right Tree
         self.canine_runs.tree_runs.bind('<Double-Button-1>', self.doubleClickRun)
+
+        self.calendar_tab.calendar_list.bind('<Double-Button-1>', self.doubleClickCalendar)
 
     #------------------------------------------------------
     def styleSettings(self):
@@ -313,7 +316,7 @@ class AgilityApp(tk.Tk):
         # Opens the calendar entry form
         ce = CalendarEntry(self, self.AD)
         ce.calendar_entry.wait_window(ce.calendar_entry)
-        print(self.AD.calendar)
+        self.calendar_tab.calendarListData()
 
     #------------------------------------------------------
     def addTraining(self):
@@ -382,6 +385,13 @@ class AgilityApp(tk.Tk):
         re.run_entry.wait_window(re.run_entry)
         self.canine_runs.runCanineData(event)
         
+    #------------------------------------------------------
+    def doubleClickCalendar(self, event):
+        self.calendar_tab.calendarItemSelected()
+        ce = EditCalendarEntry(self, self.AD, self.calendar_tab.calendar_item)
+        ce.calendar_entry.wait_window(ce.calendar_entry)
+        self.calendar_tab.calendarListData()
+
 #----------------------------------------------------------
 
 if __name__ == '__main__':

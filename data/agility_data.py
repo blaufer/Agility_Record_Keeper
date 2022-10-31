@@ -121,9 +121,9 @@ class AgilityData():
         self.calendar[k]['Club'] = club
         self.addClub(club)
         self.calendar[k]['EDate'] = edate
-        self.calendar[k]['ODate'] = edate
-        self.calendar[k]['CDate'] = edate
-        self.calendar[k]['DDate'] = edate
+        self.calendar[k]['ODate'] = odate
+        self.calendar[k]['CDate'] = cdate
+        self.calendar[k]['DDate'] = ddate
         self.calendar[k]['Tentative'] = tent
         self.calendar[k]['Entry'] = entry
         self.calendar[k]['SecEmail'] = email
