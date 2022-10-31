@@ -282,8 +282,8 @@ class RunEntry():
         self.note = self.notes_entry.get('1.0', 'end-1c')
 
         # Needs to be calculated
-        self.tpoints = None
-        self.score = None
+        self.tpoints = ''
+        self.score = ''
 
         self.AD.addRun(self.canine, self.tuid, ruid, self.date, self.event,
             self.division, self.level, self.height, self.judge, self.handler,
@@ -317,6 +317,11 @@ class EditRunEntry(RunEntry):
         for num, item in enumerate(self.level_entry['values']):
             if rdata['Level'] == item:
                 self.level_entry.current(num)
+                break
+        self.getEventData(None)
+        for num, item in enumerate(self.event_entry['values']):
+            if rdata['Event'] == item:
+                self.event_entry.current(num)
                 break
         for num, item in enumerate(self.height_entry['values']):
             if rdata['Height'] == item:
@@ -365,8 +370,8 @@ class EditRunEntry(RunEntry):
         self.note = self.notes_entry.get('1.0', 'end-1c')
 
         # Needs to be calculated
-        self.tpoints = None
-        self.score = None
+        self.tpoints = ''
+        self.score = ''
 
         self.AD.addRun(self.canine, self.tuid, self.ruid, self.date, self.event,
             self.division, self.level, self.height, self.judge, self.handler,
@@ -375,6 +380,5 @@ class EditRunEntry(RunEntry):
             self.score, self.note)
 
         self.quit()
-
 
 #----------------------------------------------------------

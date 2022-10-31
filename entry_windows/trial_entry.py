@@ -123,13 +123,9 @@ class TrialEntry():
             return
 
         venue = self.venue_name.get()
-        if venue == '': venue = None
         club = self.club_name.get()
-        if club == '': club = None
         loc = self.loc_name.get()
-        if loc == '': loc == None
         note = self.notes_entry.get('1.0', 'end-1c')
-        if note == '': note = None
 
         self.AD.addTrial(uid, self.canine, date, club, loc, venue, note)
         
@@ -156,8 +152,9 @@ class EditTrialEntry(TrialEntry):
                 self.club_entry.current(num)
                 break
         for num, item in enumerate(self.loc_entry['values']):
+            print(tdata['Location'], item)
             if tdata['Location'] == item:
-                self.club_entry.current(num)
+                self.loc_entry.current(num)
                 break
         self.notes_entry.insert('end', tdata['Notes'])
     
@@ -169,13 +166,9 @@ class EditTrialEntry(TrialEntry):
         date = f'{temp.month}/{temp.day}/{temp.year}'
         
         venue = self.venue_name.get()
-        if venue == '': venue = None
         club = self.club_name.get()
-        if club == '': club = None
         loc = self.loc_name.get()
-        if loc == '': loc == None
         note = self.notes_entry.get('1.0', 'end-1c')
-        if note == '': note = None
 
         self.AD.trials[self.uid] = {'Date': date,
                                     'Club': club,
