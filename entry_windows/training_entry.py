@@ -6,13 +6,16 @@ import tkinter.ttk as ttk
 class TrainingEntry():
 
     #------------------------------------------------------
-    def __init__(self, main):
+    def __init__(self, main, ad):
         self.training_entry = tk.Toplevel(main)
         self.training_entry.transient()
         self.training_entry.wait_visibility()
         self.training_entry.grab_set()
+        self.training_entry.geometry('300x205')
 
         self.training_entry.title('Training')
+
+        self.AD = ad
 
         # Variable
         self.name_entered = tk.StringVar()
@@ -49,13 +52,13 @@ class TrainingEntry():
         # Frame one
         self.name_label = tk.Label(self.te1, text='Name')
         self.name_label.pack(side='left')
-        self.name_entry = ttk.Combobox(self.te1, textvariable=self.name_entered)
+        self.name_entry = ttk.Entry(self.te1, textvariable=self.name_entered)
         self.name_entry.pack(side='left')
 
         # Frame two
         self.subname_label = tk.Label(self.te2, text='Subname')
         self.subname_label.pack(side='left')
-        self.subname_entry = ttk.Combobox(self.te2, textvariable=self.subname_entered)
+        self.subname_entry = ttk.Entry(self.te2, textvariable=self.subname_entered)
         self.subname_entry.pack(side='left')
 
         # Frame three
@@ -84,7 +87,30 @@ class TrainingEntry():
         self.name = self.name_entered.get()
         self.subname = self.subname_entered.get()
         self.note = self.notes_entry.get('1.0', 'end-1c')
+        
+        self.AD.addTraining(self.name, self.subname, self.note)
 
         self.quit()
 
 #----------------------------------------------------------
+
+class EditTrainingEntry(TrainingEntry):
+
+    #------------------------------------------------------
+    def __init__(self, main, ad, key):
+        self.key = key
+        super().__init__(main, ad)
+
+        self.addData()
+
+    #------------------------------------------------------
+    def addData(self):
+        tdata = self.AD.training[self.key]
+
+        self.name_entry.insert('end', self.key)
+        self.subname_entry.insert('end', tdata['Subname'])
+        self.notes_entry.insert('end', tdata['Notes'])
+
+#----------------------------------------------------------
+
+

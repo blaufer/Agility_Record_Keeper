@@ -15,7 +15,7 @@ from entry_windows.canine_entry import CanineEntry, EditCanineEntry
 from entry_windows.trial_entry import TrialEntry, EditTrialEntry
 from entry_windows.run_entry import RunEntry, EditRunEntry
 from entry_windows.calendar_entry import CalendarEntry, EditCalendarEntry
-from entry_windows.training_entry import TrainingEntry
+from entry_windows.training_entry import TrainingEntry, EditTrainingEntry
 from entry_windows.general_notes \
     import GeneralNotes, ClubNotes, JudgeNotes, LocNotes
 
@@ -88,6 +88,11 @@ class AgilityApp(tk.Tk):
 
         self.calendar_tab.calendar_list.bind('<Double-Button-1>', self.doubleClickCalendar)
         self.calendar_tab.e_button.configure(command=self.doubleClickCalendar)
+        self.calendar_tab.d_button.configure(command=self.deleteCalendarItem)
+
+        self.training_tab.tree_training.bind('<Double-Button-1>', self.doubleClickTraining)
+        self.training_tab.e_button.configure(command=self.doubleClickTraining)
+        self.training_tab.d_button.configure(command=self.deleteTrainingItem)
 
     #------------------------------------------------------
     def styleSettings(self):
@@ -323,8 +328,10 @@ class AgilityApp(tk.Tk):
     #------------------------------------------------------
     def addTraining(self):
         # Opens the training entry form
-        TrainingEntry(self)
-    
+        te = TrainingEntry(self, self.AD)
+        te.training_entry.wait_window(te.training_entry)
+        self.training_tab.trainingData()
+
     # WORKING ON DISABLING/ENABLING BUTTONS
     #------------------------------------------------------
     def canineTreeBind(self, event):
@@ -394,6 +401,26 @@ class AgilityApp(tk.Tk):
         ce.calendar_entry.wait_window(ce.calendar_entry)
         self.calendar_tab.calendarListData()
         self.calendar_tab.calendarData()
+
+    #------------------------------------------------------
+    def deleteCalendarItem(self):
+        self.calendar_tab.calendarItemSelected()
+        self.calendar_tab.deleteCalendar()
+        self.calendar_tab.calendarListData()
+        self.calendar_tab.calendarData()
+
+    #------------------------------------------------------
+    def doubleClickTraining(self, event=None):
+        self.training_tab.trainingSelectedItem()
+        te = EditTrainingEntry(self, self.AD, self.training_tab.training_item)
+        te.training_entry.wait_window(te.training_entry)
+        self.training_tab.trainingData()
+
+    #------------------------------------------------------
+    def deleteTrainingItem(self):
+        self.training_tab.trainingSelectedItem()
+        self.training_tab.deleteTraining()
+        self.training_tab.trainingData()
 
 #----------------------------------------------------------
 

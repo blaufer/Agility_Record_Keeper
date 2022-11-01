@@ -136,7 +136,8 @@ class AgilityData():
     def addTraining(self, name, sname, notes):
 
         # Add training entry, name is necessary
-        self.training[name] = self.training_entry
+        if name not in self.training.keys():
+            self.training[name] = self.training_entry
 
         self.training[name]['Subname'] = sname
         self.training[name]['Notes'] = notes

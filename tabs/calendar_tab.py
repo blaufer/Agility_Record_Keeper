@@ -24,12 +24,6 @@ class CalendarTab():
         self.calendar_pane = ttk.PanedWindow(self.parent,
             orient='horizontal')
 
-        #self.calendar_list_pane = ttk.PanedWindow(self.calendar_pane, orient='vertical')
-        #self.calendar_pane.add(self.calendar_list_pane)
-        #self.calendarList()
-        #self.calendarListButtons()
-        #self.calendar_list_pane.add(self.calendar_list)
-        #self.calendar_list_pane.add(self.e_button)
         self.calendar_list_frame = ttk.Frame(self.calendar_pane)
         self.calendar_pane.add(self.calendar_list_frame)
         self.calendarList()
@@ -98,7 +92,13 @@ class CalendarTab():
 
     #------------------------------------------------------
     def calendarItemSelected(self):
+        # Find which calendar item is selected
         self.calendar_item = self.calendar_list.selection()[0]
+
+    #------------------------------------------------------
+    def deleteCalendar(self):
+        # Delete a calendar entry
+        del self.AD.calendar[self.calendar_item]
 
     #------------------------------------------------------
     def Calendar(self):
@@ -162,6 +162,9 @@ class CalendarTab():
     #------------------------------------------------------
     def calendarData(self):
         # Add items to the calendar
+        self.destroyCalendar()
+        self.getCalendar()
+        self.setCalendar()
         for k, v in self.AD.calendar.items():
             d = v['SDate'].split('/')
             if int(d[0]) == self.month and int(d[2]) == self.year:
