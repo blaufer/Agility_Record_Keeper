@@ -24,8 +24,16 @@ class CalendarTab():
         self.calendar_pane = ttk.PanedWindow(self.parent,
             orient='horizontal')
 
+        #self.calendar_list_pane = ttk.PanedWindow(self.calendar_pane, orient='vertical')
+        #self.calendar_pane.add(self.calendar_list_pane)
+        #self.calendarList()
+        #self.calendarListButtons()
+        #self.calendar_list_pane.add(self.calendar_list)
+        #self.calendar_list_pane.add(self.e_button)
+        self.calendar_list_frame = ttk.Frame(self.calendar_pane)
+        self.calendar_pane.add(self.calendar_list_frame)
         self.calendarList()
-        self.calendar_pane.add(self.calendar_list)
+        self.calendarListButtons()
 
         self.Calendar()
         self.calendar_pane.add(self.calendar_frame)
@@ -41,12 +49,14 @@ class CalendarTab():
 
         # Start the treeview
         columns = ('1', '2', '3', '4', '5', '6', '7', '8', '9')
-        self.calendar_list = ttk.Treeview(self.main, column=columns,
-            show='headings')
-        self.calendar_list.pack(side='left')
+        #self.calendar_list = ttk.Treeview(self.main, column=columns,
+        #    show='headings')
+        self.calendar_list = ttk.Treeview(self.calendar_list_frame,
+            column=columns, show='headings')
+        self.calendar_list.pack(side='top', fill='y', expand=1)
 
-        col_names = ['Start Date', 'End Date', 'Venue', 'Club', 'Location', 'Opens', 'Closes',
-            'Draws', 'Notes']
+        col_names = ['Start Date', 'End Date', 'Venue', 'Club',
+            'Location', 'Opens', 'Closes', 'Draws', 'Notes']
 
         for num, item in enumerate(col_names):
             mwidth = Font().measure(item)
@@ -60,6 +70,15 @@ class CalendarTab():
 
         # Add items to the tree
         self.calendarListData()
+
+    #------------------------------------------------------
+    def calendarListButtons(self):
+        # DOESN'T DO ANYTHING YET
+        self.d_button = ttk.Button(self.calendar_list_frame, text='Delete')
+        self.d_button.pack(side='right')
+        # WORKS FINE
+        self.e_button = ttk.Button(self.calendar_list_frame, text='Edit')
+        self.e_button.pack(side='right')
 
     #------------------------------------------------------
     def calendarListData(self):

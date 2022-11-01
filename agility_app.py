@@ -87,6 +87,7 @@ class AgilityApp(tk.Tk):
         self.canine_runs.tree_runs.bind('<Double-Button-1>', self.doubleClickRun)
 
         self.calendar_tab.calendar_list.bind('<Double-Button-1>', self.doubleClickCalendar)
+        self.calendar_tab.e_button.configure(command=self.doubleClickCalendar)
 
     #------------------------------------------------------
     def styleSettings(self):
@@ -317,6 +318,7 @@ class AgilityApp(tk.Tk):
         ce = CalendarEntry(self, self.AD)
         ce.calendar_entry.wait_window(ce.calendar_entry)
         self.calendar_tab.calendarListData()
+        self.calendar_tab.calendarData()
 
     #------------------------------------------------------
     def addTraining(self):
@@ -386,11 +388,12 @@ class AgilityApp(tk.Tk):
         self.canine_runs.runCanineData(event)
         
     #------------------------------------------------------
-    def doubleClickCalendar(self, event):
+    def doubleClickCalendar(self, event=None):
         self.calendar_tab.calendarItemSelected()
         ce = EditCalendarEntry(self, self.AD, self.calendar_tab.calendar_item)
         ce.calendar_entry.wait_window(ce.calendar_entry)
         self.calendar_tab.calendarListData()
+        self.calendar_tab.calendarData()
 
 #----------------------------------------------------------
 
