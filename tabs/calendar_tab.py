@@ -43,8 +43,6 @@ class CalendarTab():
 
         # Start the treeview
         columns = ('1', '2', '3', '4', '5', '6', '7', '8', '9')
-        #self.calendar_list = ttk.Treeview(self.main, column=columns,
-        #    show='headings')
         self.calendar_list = ttk.Treeview(self.calendar_list_frame,
             column=columns, show='headings')
         self.calendar_list.pack(side='top', fill='y', expand=1)
@@ -67,10 +65,10 @@ class CalendarTab():
 
     #------------------------------------------------------
     def calendarListButtons(self):
-        # DOESN'T DO ANYTHING YET
+        # Edit and delete buttons for calendar list
         self.d_button = ttk.Button(self.calendar_list_frame, text='Delete')
         self.d_button.pack(side='right')
-        # WORKS FINE
+        
         self.e_button = ttk.Button(self.calendar_list_frame, text='Edit')
         self.e_button.pack(side='right')
 
@@ -78,13 +76,12 @@ class CalendarTab():
     def calendarListData(self):
         # Add data to the left tree
         self.calendar_list.delete(*self.calendar_list.get_children())
-        for k, v in self.AD.calendar.items():
-            temp = {}
-            for k1, v1 in v.items():
-                if v1 == None:
-                    temp[k1] = ''
-                else:
-                    temp[k1] = v1
+        keys = [i.split() for i in self.AD.calendar.keys()]
+        keys = sorted(keys, key=lambda date: datetime.strptime(date[0], '%m/%d/%Y'))
+        keys = [f'{i[0]} {i[1]}' for i in keys]
+
+        for k in keys:
+            temp = self.AD.calendar[k]
             self.calendar_list.insert('', 'end', iid=k, 
                 values=(temp['SDate'], temp['EDate'], temp['Venue'],
                 temp['Club'], temp['Location'], temp['ODate'], 
